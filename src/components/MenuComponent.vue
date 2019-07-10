@@ -10,7 +10,7 @@
       <router-link :to="{ name: 'Support' }" class="p-2 text-dark">Поддержка</router-link>
     </nav>
     <router-link :to="{ name: 'Tasks' }" class="btn btn-outline-primary">
-        Имя пользователя
+        {{ profile.name }}
         <span class="badge badge-pill badge-primary">0</span>
         <span class="sr-only">unread messages</span>
     </router-link>
@@ -22,7 +22,7 @@
           <router-link :to="{ name: 'Index' }" class="p-2 text-dark">На главную</router-link>
           <router-link :to="{ name: 'Support' }" class="p-2 text-dark">Поддержка</router-link>
       </nav>
-      <a class="btn btn-outline-primary" href="#">Присоединиться</a>
+      <a class="btn btn-outline-primary" @click="login">Присоединиться</a>
   </div>
 
 </div>
@@ -37,8 +37,14 @@ export default {
     msg: String
   },
   computed : {
-    isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
-  }
+    isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
+    profile: function(){ return this.$store.getters.getProfile}
+  },
+  methods: {
+      login: function () {
+        window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=http://localhost:8080/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
+      }
+    },
 }
 </script>
 

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import CallBack from '@/components/CallBack'
 
 import Community from '@/view/Community'
 import NotFound from '@/view/NotFound'
@@ -57,6 +58,11 @@ export default new Router({
         requiresAuth: true,
       }
     },
+    {
+      path: '/callback',
+      name: 'CallBack',
+      component: CallBack
+    },
     { 
       path: '/404', 
       name: '404', 
@@ -66,9 +72,6 @@ export default new Router({
       path: '*', 
       redirect: '/404' 
     }
-  ],
-  computed : {
-    isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
-  }
+  ]
 })
 
