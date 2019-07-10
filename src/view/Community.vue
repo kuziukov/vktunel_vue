@@ -1,0 +1,53 @@
+<template>
+<div>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">Список сообществ</h1>
+      <p class="lead">Посмотрите ниже и вы увидите список доступных вам сообществ. Нажмите на кнопку «Список альбомов», чтобы перейти к списку альбомов сообщества. Всегда рад помочь :)</p>
+    </div>
+
+    <main role="main" class="container">
+
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Сообщество</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Название сообщества</li>
+        </ol>
+      </nav>
+
+      <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Список доступных вам сообществ</h6>
+
+
+          <div class="media text-muted pt-3">
+            <img src="# photo 50" alt="..." class="bd-placeholder-img mr-2 rounded" width="32" height="32">
+            <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+              <div class="d-flex justify-content-between align-items-center w-100">
+                <strong class="text-gray-dark">Название сообщества</strong>
+                <a href="#">Список альбомов</a>
+              </div>
+              <span class="d-block">Описание сообщества, возможно количество альбомов и еще что-то</span>
+            </div>
+          </div>
+
+
+        <small class="d-block text-right mt-3">
+          <a href="#">All suggestions</a>
+        </small>
+      </div>
+
+    </main>
+</div>
+</template>
+
+<script>
+export default {
+  name: 'Community',
+  props: {
+    msg: String
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

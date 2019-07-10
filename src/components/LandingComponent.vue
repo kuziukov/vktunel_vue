@@ -56,11 +56,12 @@
 
 <script>
 export default {
-  name: 'LandingComponent',
+  name: 'Landing',
   props: {
     msg: String
   }
 }
+
 </script>
 
 <style scoped>
