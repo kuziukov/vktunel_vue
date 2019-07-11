@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store.js'
+
 import CallBack from '@/components/CallBack'
 
 import Community from '@/view/Community'
@@ -12,7 +14,7 @@ import Index from '@/view/Index'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   mode: 'history',
   routes: [
     {
@@ -38,6 +40,7 @@ export default new Router({
       component: Support,
       meta: {
         title: 'Поддержка - VKTunel',
+        requiresAuth: true,
       }
     },
     {
@@ -75,3 +78,17 @@ export default new Router({
   ]
 })
 
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/') 
+  } else {
+    next() 
+  }
+})
+
+export default router

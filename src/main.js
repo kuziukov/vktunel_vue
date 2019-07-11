@@ -7,22 +7,15 @@ import store from './store.js'
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
+axios.defaults.headers.common['Content-Type'] = 'application/json'
+
+const token = localStorage.getItem('token')
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
 
 new Vue({
   render: h => h(App),
   router,
   store,
 }).$mount('#app')
-
-
-router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next()
-      return
-    }
-    next('/') 
-  } else {
-    next() 
-  }
-})

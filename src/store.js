@@ -29,17 +29,25 @@ export default new Vuex.Store({
       },
   },
   actions: {
-    getAccessToken({commit}, code){
+    authorization_code({commit}, code){
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        axios({url: 'https://oauth.vk.com/access_token?client_id=7029024&client_secret=7DctKcRPCw28VykYBslv&redirect_uri=http://localhost:5000/callback&code='+code, method: 'GET' })
+
+        axios({url: 'http://localhost:5000/v1.0/authorization/code', data: code, method: 'POST' })
         .then(resp => {
-          const token = resp.data.token
-          const user = resp.data.user
-          localStorage.setItem('token', token)
-          axios.defaults.headers.common['Authorization'] = token
-          commit('auth_success', token, user)
-          resolve(resp)
+            if ('code' in resp.data && resp.data['code'] == 200){
+                var access_token = resp.data['result']['access_token']
+
+                localStorage.setItem('token', access_token)
+                axios.defaults.headers.common['Authorization'] = access_token
+                commit('auth_success', access_token, null)
+                resolve(resp)
+            }
+            else{
+              commit('auth_error')
+              localStorage.removeItem('token')
+              reject()
+            }
         })
         .catch(err => {
           commit('auth_error')
@@ -47,7 +55,7 @@ export default new Vuex.Store({
           reject(err)
         })
       })
-  },
+    },
     login({commit}, user){
         return new Promise((resolve, reject) => {
           commit('auth_request')

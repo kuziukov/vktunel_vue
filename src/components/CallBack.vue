@@ -1,9 +1,3 @@
-<template>
-<div>
-
-</div>
-</template>
-
 <script>
 
 import axios from 'axios'
@@ -20,25 +14,18 @@ export default {
         }
     },
     mounted: function () {
-        self.access_token = this.$route.query.access_token
-        self.user_id = this.$route.query.user_id
-        
-        axios({url: self.url, method: 'GET' })
+        self.code = {
+            'code': this.$route.query.code
+        }
+        this.$store.dispatch('authorization_code', self.code)
         .then(resp => {
-          console.log(resp)
-          commit('auth_success', token, user)
-          resolve(resp)
-        })
-        .catch(err => {
-          commit('auth_error')
-          localStorage.removeItem('token')
-          reject(err)
+            console.log(resp)
+        }).catch(err => {
+            console.log(err)
+        }).finally(() => {
+            window.location.replace('/')
         })
     }
 }
 
 </script>
-
-<style scoped>
-
-</style>
