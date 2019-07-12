@@ -17,18 +17,16 @@
       <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">Список доступных вам сообществ</h6>
 
-
-          <div class="media text-muted pt-3">
-            <img src="# photo 50" alt="..." class="bd-placeholder-img mr-2 rounded" width="32" height="32">
+          <div class="media text-muted pt-3" v-bind:key="community.id" v-for="community in communities">
+            <img :src="community.photo_50" alt="..." class="bd-placeholder-img mr-2 rounded" width="32" height="32">
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div class="d-flex justify-content-between align-items-center w-100">
-                <strong class="text-gray-dark">Название сообщества</strong>
-                <a href="#">Список альбомов</a>
+                <strong class="text-gray-dark">{{community.name}}</strong>
+                <router-link :to="{ name: 'Albums', params: { cummunity_id: community.id } }">Список альбомов</router-link>
               </div>
               <span class="d-block">Описание сообщества, возможно количество альбомов и еще что-то</span>
             </div>
           </div>
-
 
         <small class="d-block text-right mt-3">
           <a href="#">All suggestions</a>
@@ -40,10 +38,38 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
   name: 'Community',
-  props: {
-    msg: String
+  data(){
+    return{
+      communities: [],
+      error:null,
+    }
+  },
+  methods: {
+    setData (err, communities) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.communities = communities
+      }
+    }
+  },
+  beforeRouteEnter(to, from, next){
+    axios.get('http://localhost:5000/v1.0/community')
+          .then(resp => {
+            if ('code' in resp.data && resp.data['code'] == 200){
+              next(vm => vm.setData(null, resp.data.result.items))
+            }
+          })
+          .catch(err => {
+            next(vm => vm.setData(err, null))
+          })   
+  },
+  mounted: function () {
   }
 }
 </script>

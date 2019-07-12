@@ -48,8 +48,38 @@
 <script>
 export default {
   name: 'Albums',
-  props: {
-    msg: String
+  data(){
+    return{
+      albums: [],
+      error:null,
+    }
+  },
+  methods: {
+    setData (err, albums) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.albums = albums
+      }
+    }
+  },
+  beforeRouteEnter(to, from, next){
+
+      console.log(this.$route.params)
+    console.log(this.$router.query)
+
+    axios.get('http://localhost:5000/v1.0/community/<string:community_id>/albums')
+          .then(resp => {
+            if ('code' in resp.data && resp.data['code'] == 200){
+              next(vm => vm.setData(null, resp.data.result.items))
+            }
+          })
+          .catch(err => {
+            next(vm => vm.setData(err, null))
+          })   
+  },
+  mounted: function () {
+      
   }
 }
 </script>

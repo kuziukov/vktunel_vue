@@ -4,9 +4,6 @@ import axios from 'axios'
 
 export default {
     name: 'CallBack',
-    props: {
-        msg: String
-    },
     data(){
         return{
             access_token: '',
