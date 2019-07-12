@@ -5,11 +5,11 @@
       <p class="lead">Укажите ссылку на сообщество и мы загрузим его для вас.</p>
     </div>
 
-    <div class="alert alert-danger">
-        Сообщение об ошибке <a href="#">Вернуться</a>
+    <div class="alert alert-danger" v-if="error">
+        {{error}} <a href="#">Вернуться</a>
     </div>
 
-    <form class="needs-validation" role="form" method="POST">
+    <form class="needs-validation" role="form" method="POST" v-if="!error">
         <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
             <form class="needs-validation" role="form" method="POST">
@@ -34,7 +34,12 @@
 
 <script>
 export default {
-  name: 'Main'
+    name: 'Main',
+    data(){
+        return{
+            error: null,
+        }
+    },
 }
 </script>
 
@@ -43,8 +48,6 @@ export default {
         width: 50%;
         margin: 50px auto;
     }
-
-    /* Bootstrap 4 text input with search icon */
 
     .has-search .form-control {
         padding-left: 2.375rem;

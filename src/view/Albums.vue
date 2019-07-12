@@ -14,74 +14,65 @@
             </ol>
         </nav>
 
-            <div class="alert alert-warning text-center" role="alert">
-                Простите, но, похоже, у вас нет доступа к этому альбому. Нам очень жаль, <a href="#">вернуться</a>
+            <div class="alert alert-warning text-center" role="alert" v-if="error">
+                Простите, но, похоже, у вас нет доступа к этому альбому. Нам очень жаль, <router-link :to="{ name: 'Community' }">вернуться</router-link>
             </div>
 
-            <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="!error">
                 <h6 class="border-bottom border-gray pb-2 mb-0">Список доступных вам альбомов</h6>
 
-                
-                    <div class="media text-muted pt-3">
+                    <div class="media text-muted pt-3" v-bind:key="album.id" v-for="album in albums">
                         <img src="#" alt="..." class="bd-placeholder-img mr-2 rounded" width="32" height="32">
                         <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
-                                <strong class="text-gray-dark">Название альбома</strong>
+                                <strong class="text-gray-dark">{{album.title}}</strong>
                                 <a href="#">Добавить в (Загрузить)</a>
                             </div>
-                            <span class="d-block">Фотографий в альбоме: 1000. Дата создания альбома: 01.01.2018 23:11</span>
+                            <span class="d-block">Фотографий в альбоме: {{album.size}}. Дата создания альбома: {{album.created}}</span>
                         </div>
                     </div>
-     
 
                 <small class="d-block text-right mt-3">
                     <a href="#">All suggestions</a>
                 </small>
             </div>
 
-
-
     </main>
 </div>
 </template>
 
 <script>
-export default {
-  name: 'Albums',
-  data(){
-    return{
-      albums: [],
-      error:null,
-    }
-  },
-  methods: {
-    setData (err, albums) {
-      if (err) {
-        this.error = err.toString()
-      } else {
-        this.albums = albums
-      }
-    }
-  },
-  beforeRouteEnter(to, from, next){
+    import axios from 'axios'
 
-      console.log(this.$route.params)
-    console.log(this.$router.query)
-
-    axios.get('http://localhost:5000/v1.0/community/<string:community_id>/albums')
-          .then(resp => {
-            if ('code' in resp.data && resp.data['code'] == 200){
-              next(vm => vm.setData(null, resp.data.result.items))
-            }
-          })
-          .catch(err => {
-            next(vm => vm.setData(err, null))
-          })   
-  },
-  mounted: function () {
-      
-  }
-}
+    export default {
+      name: 'Albums',
+      data(){
+        return{
+          albums: [],
+          error: null,
+        }
+      },
+      methods: {
+        setData (err, albums) {
+          if (err) {
+            this.error = err.toString()
+          } else {
+            this.albums = albums
+          }
+        }
+      },
+      beforeRouteEnter(to, from, next){
+          axios.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id+'/albums')
+              .then(resp => {
+                  if ('code' in resp.data && resp.data['code'] === 200){
+                      next(vm => vm.setData(null, resp.data.result.items))
+                  }
+              })
+              .catch(err => {
+                  next(vm => vm.setData(err, null))
+              })
+      },
+    }
 </script>
 
 <style scoped>

@@ -40,7 +40,6 @@ let router = new Router({
         component: Support,
         meta: {
           title: 'Поддержка - VKTunel',
-          requiresAuth: true,
         }
       },
       {

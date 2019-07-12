@@ -29,17 +29,39 @@
 
 
 <script>
-export default {
-    name: 'MenuComponent',
-    computed : {
-        isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
-        profile: function(){ return this.$store.getters.getProfile}
-    },
-    methods: {
-        login: function () {
-            window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=http://localhost:8080/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
-        }
-    },
-}
+    import axios from 'axios'
+
+    export default {
+        name: 'MenuComponent',
+        computed : {
+            isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
+            profile: function(){ return this.$store.getters.getProfile}
+        },
+        methods: {
+            login: function () {
+                window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=http://localhost:8080/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
+            }
+        },
+        data(){
+            return{
+                error: null,
+            }
+        },
+
+        beforeCreate() {
+            let isLogged = this.$store.getters.isLoggedIn;
+            if(isLogged){
+                axios.get('http://localhost:5000/v1.0/users')
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] === 200){
+                            this.$store.commit('user_updated', resp.data.result)
+                        }
+                    })
+                    .catch(err => {
+                        this.error = err
+                    })
+            }
+        },
+    }
 </script>
 
