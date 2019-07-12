@@ -56,10 +56,7 @@
 
 <script>
 export default {
-  name: 'Landing',
-  props: {
-    msg: String
-  }
+  name: 'Landing'
 }
 
 </script>

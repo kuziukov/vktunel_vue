@@ -39,39 +39,40 @@
 
 <script>
 
-import axios from 'axios'
+  import axios from 'axios'
 
-export default {
-  name: 'Community',
-  data(){
-    return{
-      communities: [],
-      error:null,
-    }
-  },
-  methods: {
-    setData (err, communities) {
-      if (err) {
-        this.error = err.toString()
-      } else {
-        this.communities = communities
+  export default {
+    name: 'Community',
+    data(){
+      return{
+        communities: [],
+        error:null,
       }
+    },
+    methods: {
+      setData (err, communities) {
+        if (err) {
+          this.error = err.toString()
+        } else {
+          this.communities = communities
+        }
+      }
+    },
+    beforeRouteEnter(to, from, next){
+      axios.get('http://localhost:5000/v1.0/community')
+              .then(resp => {
+                if ('code' in resp.data && resp.data['code'] == 200){
+                  next(vm => vm.setData(null, resp.data.result.items))
+                }
+              })
+              .catch(err => {
+                next(vm => vm.setData(err, null))
+              })
+    },
+    mounted: function () {
+
     }
-  },
-  beforeRouteEnter(to, from, next){
-    axios.get('http://localhost:5000/v1.0/community')
-          .then(resp => {
-            if ('code' in resp.data && resp.data['code'] == 200){
-              next(vm => vm.setData(null, resp.data.result.items))
-            }
-          })
-          .catch(err => {
-            next(vm => vm.setData(err, null))
-          })   
-  },
-  mounted: function () {
   }
-}
 </script>
 
 <style scoped>

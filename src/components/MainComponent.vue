@@ -34,15 +34,12 @@
 
 <script>
 export default {
-  name: 'Main',
-  props: {
-    msg: String
-  }
+  name: 'Main'
 }
 </script>
 
 <style scoped>
-.main {
+    .main {
         width: 50%;
         margin: 50px auto;
     }

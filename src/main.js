@@ -11,11 +11,11 @@ axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const token = localStorage.getItem('token')
 if (token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+    Vue.prototype.$http.defaults.headers.common['Authorization'] = token
 }
 
 new Vue({
-  render: h => h(App),
-  router,
-  store,
+    render: h => h(App),
+    router,
+    store,
 }).$mount('#app')
