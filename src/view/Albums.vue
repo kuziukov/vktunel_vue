@@ -44,13 +44,8 @@
 <script>
     import axios from 'axios'
 
-    import BreadCrumb from '../components/BreadCrumb.vue'
-
     export default {
         name: 'Albums',
-        components: {
-            BreadCrumb,
-        },
         data(){
             return{
                 albums: [],
