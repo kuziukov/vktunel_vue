@@ -22,7 +22,7 @@ let router = new Router({
         name: 'Index',
         component: Index,
         meta: {
-          title: 'VK Tunel',
+          title: 'Новости - Wlusm',
         }
       },
       {
@@ -30,7 +30,7 @@ let router = new Router({
         name: 'Tasks',
         component: Tasks,
         meta: {
-          title: 'Задачи - VKTunel',
+          title: 'Задачи - Wlusm',
           requiresAuth: true,
         }
       },
@@ -39,7 +39,7 @@ let router = new Router({
         name: 'Support',
         component: Support,
         meta: {
-          title: 'Поддержка - VKTunel',
+          title: 'Поддержка - Wlusm',
         }
       },
       {
@@ -47,7 +47,7 @@ let router = new Router({
         name: 'Community',
         component: Community,
         meta: {
-          title: 'Сообщества - VKTunel',
+          title: 'Сообщества - Wlusm',
           requiresAuth: true,
         }
       },
@@ -56,7 +56,7 @@ let router = new Router({
         name: 'Albums',
         component: Albums,
         meta: {
-          title: 'Альбом - VKTunel',
+          title: 'Альбом - Wlusm',
           requiresAuth: true,
         }
       },
@@ -69,16 +69,23 @@ let router = new Router({
         path: '/404',
         name: '404',
         component: NotFound,
+        meta: {
+          title: 'Страница не найдена - Wlusm',
+        }
       },
       {
         path: '*',
-        redirect: '/404'
+        redirect: '/404',
+        meta: {
+          title: 'Страница не найдена - Wlusm',
+        }
       }
     ]
   });
 
 
 router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next()

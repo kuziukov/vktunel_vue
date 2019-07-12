@@ -1,28 +1,19 @@
 <script>
+    import store from '../store'
+    import route from '../router'
 
-import axios from 'axios'
+    export default {
+        name: 'CallBack',
+        beforeRouteEnter(to){
+            let code = {
+                'code': to.query.code
+            };
+            store.dispatch('authorization_code', code)
+                .then().catch().finally(() => {
+                route.replace('/')
+            });
+        },
 
-export default {
-    name: 'CallBack',
-    data(){
-        return{
-            access_token: '',
-            user_id: '',
-        }
-    },
-    mounted: function () {
-        self.code = {
-            'code': this.$route.query.code
-        }
-        this.$store.dispatch('authorization_code', self.code)
-        .then(resp => {
-            console.log(resp)
-        }).catch(err => {
-            console.log(err)
-        }).finally(() => {
-            window.location.replace('/')
-        })
     }
-}
 
 </script>
