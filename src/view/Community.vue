@@ -22,7 +22,7 @@
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div class="d-flex justify-content-between align-items-center w-100">
                 <strong class="text-gray-dark">{{community.name}}</strong>
-                <router-link :to="{ name: 'Albums', params: { cummunity_id: community.id } }">Список альбомов</router-link>
+                <router-link :to="{ name: 'Albums', params: { cummunity_id: '-'+community.id } }">Список альбомов</router-link>
               </div>
               <span class="d-block">Описание сообщества, возможно количество альбомов и еще что-то</span>
             </div>
@@ -59,7 +59,7 @@
       }
     },
     beforeRouteEnter(to, from, next){
-      axios.get('http://localhost:5000/v1.0/community')
+      axios.get('http://localhost:5000/v1.0/communities')
               .then(resp => {
                 if ('code' in resp.data && resp.data['code'] == 200){
                   next(vm => vm.setData(null, resp.data.result.items))

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MenuComponent msg="Welcome to Your Vue.js App"/>
+    <MenuComponent></MenuComponent>
     <router-view></router-view>
   </div>
 </template>
@@ -19,6 +19,7 @@ export default {
         if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
           this.$store.dispatch(logout)
         }
+
         throw err;
       });
     });

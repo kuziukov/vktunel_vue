@@ -8,7 +8,7 @@
             let code = {
                 'code': to.query.code
             };
-            store.dispatch('authorization_code', code)
+            store.dispatch('SIGNUP', code)
                 .then().catch().finally(() => {
                 route.replace('/')
             });
