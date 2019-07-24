@@ -26,7 +26,7 @@
                         <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="text-gray-dark">{{album.title}}</strong>
-                                <a href="#">Добавить в (Загрузить)</a>
+                                <a href="#" @click="createTask(album.id)">Добавить в (Загрузить)</a>
                             </div>
                             <span class="d-block">Фотографий в альбоме: {{album.size}}. Дата создания альбома: {{album.created}}</span>
                         </div>
@@ -54,6 +54,20 @@
             }
         },
         methods: {
+            createTask: function (album_id) {
+                let community_id = this.$route.params.cummunity_id;
+                this.$store.dispatch('CREATETASK', { 'subject_id': '-'+community_id, 'album_id': album_id })
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] == 200){
+                            this.$notify({
+                                group: 'foo',
+                                title: '',
+                                type: 'warn',
+                                text: 'Альбом '+ resp.data.result.task.album_name+ ' добавлен в загрузки'
+                            });
+                        }
+                    })
+            },
             setData (err, albums) {
                 if (err) {
                     this.error = err.toString()

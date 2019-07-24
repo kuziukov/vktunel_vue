@@ -15,7 +15,7 @@
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div class="d-flex justify-content-between align-items-center w-100">
                 <strong class="text-gray-dark">{{task.album_name}}</strong>
-                <a href="#">Скачать (250 МБ)</a>
+                <a href="#">{{task.archive ? 'Скачать (250 МБ)' : ''}}</a>
               </div>
               <span class="d-block">Статус задачи: {{task.archive ? 'готово' : 'выполняется'}} </span>
             </div>

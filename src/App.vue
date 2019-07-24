@@ -4,7 +4,7 @@
       <template slot="body" slot-scope="props">
 
         <div class="alert alert-info" role="alert">
-          <strong>Уупс</strong> {{props.item.text}}
+          <strong>{{props.item.title}}</strong> {{props.item.text}}
         </div>
 
 
