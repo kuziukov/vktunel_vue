@@ -51,9 +51,16 @@
                         else if (resp.data.result.type == 'group'){
                             this.$router.push({ name: 'Albums', params: { cummunity_id: resp.data.result.object_id } })
                         }
-                    }).catch(error => {
+                    }).catch(err => {
 
-                });
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Ууупс',
+                            type: 'warn',
+                            text: 'Возможно вы ввели не правильную ссылку, попробуйте снова'
+                        });
+
+                    });
 
                 e.preventDefault();
             }

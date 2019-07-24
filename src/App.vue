@@ -1,5 +1,15 @@
 <template>
   <div id="app">
+    <notifications group = "foo" position="top right" width="25%" >
+      <template slot="body" slot-scope="props">
+
+        <div class="alert alert-info" role="alert">
+          <strong>Уупс</strong> {{props.item.text}}
+        </div>
+
+
+      </template>
+    </notifications>
     <MenuComponent></MenuComponent>
     <router-view></router-view>
   </div>
@@ -30,5 +40,9 @@ export default {
 <style>
     html{
       overflow-y: scroll;
+    }
+
+    .vue-notification {
+      margin: 60px 5px 5px;
     }
 </style>
