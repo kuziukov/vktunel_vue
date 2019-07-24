@@ -4,13 +4,17 @@ import axios from 'axios'
 
 import generalModule from './store/general'
 import userModule from './store/user'
+import communityModule from './store/community'
+import utilsModule from './store/utils'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules:{
-    generalModule,
-    userModule
+      generalModule,
+      userModule,
+      communityModule,
+      utilsModule
   },
   state: {
     status: '',

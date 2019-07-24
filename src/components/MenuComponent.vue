@@ -64,7 +64,7 @@
         },
         beforeCreate() {
             if(this.$store.getters.isAuthenticated){
-                axios.get('http://localhost:5000/v1.0/users')
+                axios.get('http://localhost:5000/v1.0/profile')
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             this.$store.commit('USER_UPDATED', resp.data.result)
