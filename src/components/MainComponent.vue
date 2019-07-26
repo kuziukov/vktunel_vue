@@ -14,7 +14,7 @@
                 <span class="fa fa-search form-control-feedback"></span>
                 <form class="needs-validation" role="form" method="POST">
                     <div class="form-group has-search">
-                        <span class="fa fa-search form-control-feedback"></span>
+                        <span icon="search" class="fa fa-search form-control-feedback"></span>
                         <input class="form-control" id="query" name="query" v-model="query" placeholder="https://vk.com/fest" type="text" value="" v-on:keydown.enter.prevent="search">
 
                     </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+
     export default {
         name: 'Main',
         data(){
@@ -55,9 +56,9 @@
 
                         this.$notify({
                             group: 'foo',
-                            title: 'Ууупс',
-                            type: 'warn',
-                            text: 'Возможно вы ввели не правильную ссылку, попробуйте снова'
+                            title: 'Произошла ошибка',
+                            type: 'warning',
+                            text: 'Мы не смогли распознать вашу ссылку, попробуйте еще раз'
                         });
 
                     });

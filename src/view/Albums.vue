@@ -59,13 +59,22 @@
                 this.$store.dispatch('CREATETASK', { 'subject_id': '-'+community_id, 'album_id': album_id })
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] == 200){
+                            console.log(resp.data)
                             this.$notify({
                                 group: 'foo',
-                                title: '',
-                                type: 'warn',
+                                title: 'Успех',
+                                type: 'success',
                                 text: 'Альбом '+ resp.data.result.task.album_name+ ' добавлен в загрузки'
                             });
                         }
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Произошла ошибка',
+                            type: 'warning',
+                            text: 'Извините, нам не удалось загрузить ваш альбом, попробуйте снова'
+                        });
                     })
             },
             setData (err, albums) {

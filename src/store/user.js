@@ -50,5 +50,6 @@ export default {
     },
     getters: {
         isAuthenticated: state => !!state.token,
+        profile: state => state.user,
     }
 }

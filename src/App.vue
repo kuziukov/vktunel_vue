@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <notifications group = "foo" position="top right" width="25%" >
+    <notifications group = "foo" position="top center" width="30%" >
       <template slot="body" slot-scope="props">
 
-        <div class="alert alert-info" role="alert">
-          <strong>{{props.item.title}}</strong> {{props.item.text}}
+        <div :class="'alert alert-' + props.item.type" role="alert">
+          <strong>{{props.item.title}}</strong>
+          <p>{{props.item.text}}</p>
         </div>
 
 

@@ -10,7 +10,7 @@
             };
             store.dispatch('SIGNUP', code)
                 .then().catch().finally(() => {
-                route.replace('/')
+                route.push('/')
             });
         },
 

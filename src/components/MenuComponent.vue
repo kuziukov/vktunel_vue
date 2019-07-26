@@ -5,7 +5,13 @@
           <h5 class="my-0 mr-md-auto font-weight-normal">VK Tunel</h5>
           <nav class="my-2 my-md-0 mr-md-3">
               <router-link v-bind:key="item.id" v-for="item in menuItems" :to="{ name: item.route }" class="p-2 text-dark">{{item.title}}</router-link>
+
           </nav>
+          <a class="btn btn-outline-primary" href="/tasks" v-if="isAuthenticated">
+              {{profile.name}}
+              <span class="badge badge-pill badge-primary">1</span>
+              <span class="sr-only">unread messages</span>
+          </a>
           <a class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</a>
       </div>
     </div>
@@ -21,6 +27,7 @@
         name: 'MenuComponent',
         computed : {
             isAuthenticated : function(){ return this.$store.getters.isAuthenticated},
+            profile: function(){ return this.$store.getters.profile},
             menuItems : function() {
                 return this.isAuthenticated ?
                     [
