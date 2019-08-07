@@ -4,13 +4,13 @@
 
     export default {
         name: 'CallBack',
-        beforeRouteEnter(to){
+        beforeRouteEnter(to, from, next){
             let code = {
                 'code': to.query.code
             };
             store.dispatch('SIGNUP', code)
                 .then().catch().finally(() => {
-                route.push('/')
+                next(vm => route.push('/'))
             });
         },
 
