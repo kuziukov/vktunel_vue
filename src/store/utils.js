@@ -1,4 +1,4 @@
-import axios from "axios";
+import instance from '../http'
 
 export default {
     state: {},
@@ -6,7 +6,7 @@ export default {
     actions: {
         SEARCH({commit}, payload){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://localhost:5000/v1.0/utils/link', data: payload, method: 'POST' })
+                instance({url: 'http://localhost:5000/v1.0/utils/link', data: payload, method: 'POST' })
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             resolve(resp)
