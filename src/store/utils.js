@@ -6,7 +6,7 @@ export default {
     actions: {
         SEARCH({commit}, payload){
             return new Promise((resolve, reject) => {
-                instance({url: 'http://localhost:5000/v1.0/utils/link', data: payload, method: 'POST' })
+                instance.post('/utils/link', payload)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             resolve(resp)

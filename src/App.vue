@@ -43,7 +43,8 @@ export default {
       overflow-y: scroll;
     }
 
-    .vue-notification {
-      margin: 60px 5px 5px;
+    .my-style {
+      margin-top: 20px;
+
     }
 </style>
