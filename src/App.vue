@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <notifications group = "foo" position="top center" width="30%" >
+    <MenuComponent></MenuComponent>
+    <notifications group = "foo" position="top right" width="30%" classes="my-style" >
       <template slot="body" slot-scope="props">
 
         <div :class="'alert alert-' + props.item.type" role="alert">
@@ -11,7 +12,6 @@
 
       </template>
     </notifications>
-    <MenuComponent></MenuComponent>
     <router-view></router-view>
   </div>
 </template>
@@ -41,10 +41,5 @@ export default {
 <style>
     html{
       overflow-y: scroll;
-    }
-
-    .my-style {
-      margin-top: 20px;
-
     }
 </style>
