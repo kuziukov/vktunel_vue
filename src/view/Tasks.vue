@@ -7,7 +7,11 @@
 
     <main role="main" class="container">
 
-      <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <div class="alert alert-info text-center" role="alert" v-if="tasks.length < 1">
+        У вас еще нет ни одной поставленной задачи.
+      </div>
+
+      <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="tasks.length > 0">
         <h6 class="border-bottom border-gray pb-2 mb-0">Список поставленных вами задач</h6>
 
           <div class="media text-muted pt-3" v-bind:key="task.id" v-for="task in tasks">
@@ -15,15 +19,12 @@
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div class="d-flex justify-content-between align-items-center w-100">
                 <strong class="text-gray-dark">{{task.album_name}}</strong>
-                <a href="#">Скачать (250 МБ)</a>
+                <a href="#" @click="download(task.id)">{{Object.values(task.archive).length > 0 ? 'Скачать (' + convertBytes(task.archive.length) + ')' : ''}}</a>
               </div>
-              <span class="d-block">Статус задачи: {{task.archive ? 'готово' : 'выполняется'}} </span>
+              <span class="d-block">Статус задачи: {{Object.values(task.archive).length > 0 > 0 ? 'готово' : 'выполняется'}} </span>
             </div>
           </div>
 
-        <small class="d-block text-right mt-3">
-          <a href="#">All suggestions</a>
-        </small>
       </div>
 
     </main>
@@ -43,12 +44,24 @@ export default {
     }
   },
   methods: {
+    download: function(task_id){
+      window.open('http://localhost:5000/files/'+task_id)
+    },
     setData (err, tasks) {
       if (err) {
         this.error = err.toString()
       } else {
         this.tasks = tasks
       }
+    },
+    convertBytes: function (size_bytes) {
+      let names_of_size = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+      if (size_bytes === 0) return "0B";
+
+      let log_of_bytes = parseInt(Math.log(size_bytes) / Math.log(1000));
+      let number = Math.round((size_bytes / Math.pow(1000, log_of_bytes)) * 100) / 100;
+
+      return `${number} ${names_of_size[log_of_bytes]}`
     }
   },
   beforeRouteEnter(to, from, next){

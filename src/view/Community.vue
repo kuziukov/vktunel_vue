@@ -59,7 +59,7 @@
       }
     },
     beforeRouteEnter(to, from, next){
-      axios.get('http://localhost:5000/v1.0/community')
+      axios.get('http://localhost:5000/v1.0/communities')
               .then(resp => {
                 if ('code' in resp.data && resp.data['code'] == 200){
                   next(vm => vm.setData(null, resp.data.result.items))

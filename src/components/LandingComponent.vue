@@ -17,7 +17,7 @@
               <li>1к фотографий</li>
               <li>Не более 5 альбомов</li>
             </ul>
-            <button type="button" class="btn btn-lg btn-block btn-outline-primary">Присоединяйся бесплатно</button>
+            <button type="button" @click="login" class="btn btn-lg btn-block btn-outline-primary">Присоединяйся бесплатно</button>
           </div>
         </div>
         <div class="card mb-4 box-shadow">
@@ -56,7 +56,12 @@
 
 <script>
 export default {
-  name: 'Landing'
+  name: 'Landing',
+  methods: {
+      login: function () {
+        window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=http://localhost:8080/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
+      }
+  },
 }
 
 </script>

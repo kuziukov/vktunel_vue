@@ -1,27 +1,18 @@
 <template>
 
     <div>
-      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow" v-if="isLoggedIn">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Вскачай все</h5>
-        <nav class="my-2 my-md-0 mr-md-3">
-          <router-link :to="{ name: 'Index' }" class="p-2 text-dark">На главную</router-link>
-          <router-link :to="{ name: 'Community' }" class="p-2 text-dark">Сообщества</router-link>
-          <router-link :to="{ name: 'Support' }" class="p-2 text-dark">Поддержка</router-link>
-        </nav>
-        <router-link :to="{ name: 'Tasks' }" class="btn btn-outline-primary">
-            {{ profile.name }}
-            <span class="badge badge-pill badge-primary">0</span>
-            <span class="sr-only">unread messages</span>
-        </router-link>
-      </div>
-
-      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow" v-if="!isLoggedIn">
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
           <h5 class="my-0 mr-md-auto font-weight-normal">VK Tunel</h5>
           <nav class="my-2 my-md-0 mr-md-3">
-              <router-link :to="{ name: 'Index' }" class="p-2 text-dark">На главную</router-link>
-              <router-link :to="{ name: 'Support' }" class="p-2 text-dark">Поддержка</router-link>
+              <router-link v-bind:key="item.id" v-for="item in menuItems" :to="{ name: item.route }" class="p-2 text-dark">{{item.title}}</router-link>
+
           </nav>
-          <a class="btn btn-outline-primary" @click="login">Присоединиться</a>
+          <router-link class="btn btn-outline-primary" :to="{ name: 'Tasks' }" v-if="isAuthenticated">
+              {{profile.name}}
+              <span class="badge badge-pill badge-primary">1</span>
+              <span class="sr-only">unread messages</span>
+          </router-link>
+          <a class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</a>
       </div>
     </div>
 
@@ -29,36 +20,57 @@
 
 
 <script>
+
     import axios from 'axios'
 
     export default {
         name: 'MenuComponent',
         computed : {
-            isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
-            profile: function(){ return this.$store.getters.getProfile}
+            isAuthenticated : function(){ return this.$store.getters.isAuthenticated},
+            profile: function(){ return this.$store.getters.profile},
+            menuItems : function() {
+                return this.isAuthenticated ?
+                    [
+                        {
+                            title: 'На главную',
+                            route: 'Index',
+                        },
+                        {
+                            title: 'Сообщества',
+                            route: 'Community',
+                        },
+                        {
+                            title: 'Поддержка',
+                            route: 'Support',
+                        }
+                    ]
+                    :[
+                        {
+                            title: 'На главную',
+                            route: 'Index',
+                        },
+                        {
+                            title: 'Поддержка',
+                            route: 'Support',
+                        }
+                    ]
+            },
         },
         methods: {
             login: function () {
                 window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=http://localhost:8080/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
             }
         },
-        data(){
-            return{
-                error: null,
-            }
-        },
-
         beforeCreate() {
-            let isLogged = this.$store.getters.isLoggedIn;
-            if(isLogged){
-                axios.get('http://localhost:5000/v1.0/users')
+            if(this.$store.getters.isAuthenticated){
+                axios.get('http://localhost:5000/v1.0/profile')
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
-                            this.$store.commit('user_updated', resp.data.result)
+                            this.$store.commit('USER_UPDATED', resp.data.result)
                         }
                     })
                     .catch(err => {
-                        this.error = err
+                        this.$store.commit('LOGOUT')
                     })
             }
         },

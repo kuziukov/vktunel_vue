@@ -1,6 +1,6 @@
 <template>
-    <Main v-if="isLoggedIn"/>
-    <Landing v-else-if="!isLoggedIn"/>
+    <Main v-if="isAuthenticated"/>
+    <Landing v-else-if="!isAuthenticated"/>
 </template>
 
 <script>
@@ -14,7 +14,7 @@
             Main
         },
         computed : {
-            isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+            isAuthenticated : function(){ return this.$store.getters.isAuthenticated},
         }
     }
 

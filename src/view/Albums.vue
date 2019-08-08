@@ -8,8 +8,8 @@
     <main role="main" class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Сообщество</a></li>
-                <li class="breadcrumb-item"><a href="#">Название Сообщества</a></li>
+                <li class="breadcrumb-item"><router-link :to="{ name: 'Community' }">Сообщество</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="{ name: 'Albums', params: { cummunity_id: community ? community.name : '#' } }">{{community ? community.name : 'Сообщество'}}</router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">Название альбома</li>
             </ol>
         </nav>
@@ -26,7 +26,7 @@
                         <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="text-gray-dark">{{album.title}}</strong>
-                                <a href="#">Добавить в (Загрузить)</a>
+                                <a href="#" @click="createTask(album.id)">Добавить в (Загрузить)</a>
                             </div>
                             <span class="d-block">Фотографий в альбоме: {{album.size}}. Дата создания альбома: {{album.created}}</span>
                         </div>
@@ -50,27 +50,69 @@
             return{
                 albums: [],
                 error: null,
+                community: null
             }
         },
         methods: {
+            createTask: function (album_id) {
+                let community_id = this.$route.params.cummunity_id;
+                this.$store.dispatch('CREATETASK', { 'subject_id': '-'+community_id, 'album_id': album_id })
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] == 200){
+                            console.log(resp.data)
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Успех',
+                                type: 'success',
+                                text: 'Альбом '+ resp.data.result.task.album_name+ ' добавлен в загрузки'
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Произошла ошибка',
+                            type: 'warning',
+                            text: 'Извините, нам не удалось загрузить ваш альбом, попробуйте снова'
+                        });
+                    })
+            },
             setData (err, albums) {
                 if (err) {
                     this.error = err.toString()
                 } else {
                     this.albums = albums
                 }
-            }
             },
+            setCommunity(err, community){
+                if (err) {
+                    this.error = err.toString()
+                } else {
+                    this.community = community
+                }
+            }
+        },
         beforeRouteEnter(to, from, next){
-            axios.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id+'/albums')
-                .then(resp => {
-                    if ('code' in resp.data && resp.data['code'] === 200){
-                        next(vm => vm.setData(null, resp.data.result.items))
-                    }
-                })
-                .catch(err => {
-                    next(vm => vm.setData(err, null))
-                })
+
+            axios.all([
+                axios.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id+'/albums'),
+                axios.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id)
+            ])
+            .then(axios.spread((AlbumsRes, CommunityRes) => {
+
+                if (('code' in AlbumsRes.data && AlbumsRes.data['code'] === 200) && ('code' in CommunityRes.data && CommunityRes.data['code'] === 200)){
+                    next(vm => {
+                        vm.setData(null, AlbumsRes.data.result.items)
+                        vm.setCommunity(null, CommunityRes.data.result)
+                    });
+                }
+            }))
+            .catch(err => {
+                next(vm => {
+                    vm.setData(err, null)
+                    vm.setCommunity(err, null)
+                });
+            });
         },
     }
 </script>

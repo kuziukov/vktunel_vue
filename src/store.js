@@ -2,9 +2,22 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+import generalModule from './store/general'
+import userModule from './store/user'
+import communityModule from './store/community'
+import utilsModule from './store/utils'
+import tasksModule from './store/tasks'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules:{
+      generalModule,
+      userModule,
+      communityModule,
+      utilsModule,
+      tasksModule
+  },
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
@@ -32,33 +45,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    authorization_code({commit}, code){
-      return new Promise((resolve, reject) => {
-        commit('auth_request');
 
-        axios({url: 'http://localhost:5000/v1.0/authorization/code', data: code, method: 'POST' })
-        .then(resp => {
-            if ('code' in resp.data && resp.data['code'] === 200){
-                var access_token = resp.data['result']['access_token'];
-
-                localStorage.setItem('token', access_token);
-                axios.defaults.headers.common['Authorization'] = access_token;
-                commit('auth_success', access_token, null);
-                resolve(resp)
-            }
-            else{
-              commit('auth_error');
-              localStorage.removeItem('token');
-              reject();
-            }
-        })
-        .catch(err => {
-          commit('auth_error');
-          localStorage.removeItem('token');
-          reject(err)
-        })
-      })
-    },
     login({commit}, user){
         return new Promise((resolve, reject) => {
           commit('auth_request');
