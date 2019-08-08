@@ -16,6 +16,15 @@
   </div>
 </template>
 
+<style>
+  html{
+    overflow-y: scroll;
+  }
+  .notifications{
+    margin-top: 80px;
+  }
+</style>
+
 <script>
 import MenuComponent from './components/MenuComponent.vue'
 
@@ -37,9 +46,3 @@ export default {
   }
 }
 </script>
-
-<style>
-    html{
-      overflow-y: scroll;
-    }
-</style>
