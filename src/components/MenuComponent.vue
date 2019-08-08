@@ -42,10 +42,6 @@
                         {
                             title: 'Поддержка',
                             route: 'Support',
-                        },
-                        {
-                            title: 'Задачи',
-                            route: 'Tasks',
                         }
                     ]
                     :[
