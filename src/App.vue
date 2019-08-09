@@ -20,9 +20,34 @@
   html{
     overflow-y: scroll;
   }
-  .notifications{
-    margin-top: 80px;
+
+  @media (max-width: 576px) {
+    .notifications{
+      position: absolute;
+      margin-top: 145px;
+      margin-right: 10px;
+      font-size: 14px;
+    }
   }
+
+  @media (min-width: 576px) {
+    .notifications{
+      position: absolute;
+      margin-top: 145px;
+      margin-right: 10px;
+      font-size: 15px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .notifications{
+      position: absolute;
+      margin-top: 80px;
+      margin-right: 10px;
+    }
+  }
+
+
 </style>
 
 <script>
