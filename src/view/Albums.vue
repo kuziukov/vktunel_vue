@@ -6,7 +6,7 @@
     </div>
 
     <main role="main" class="container">
-        <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb" v-if="!error">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link :to="{ name: 'Community' }">Сообщество</router-link></li>
                 <li class="breadcrumb-item"><router-link :to="{ name: 'Albums', params: { cummunity_id: community ? community.name : '#' } }">{{community ? community.name : 'Сообщество'}}</router-link></li>
@@ -78,6 +78,7 @@
                     })
             },
             setData (err, albums) {
+                console.log(err)
                 if (err) {
                     this.error = err.toString()
                 } else {

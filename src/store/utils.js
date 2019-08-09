@@ -1,4 +1,4 @@
-import instance from '../http'
+import api from '../api'
 
 export default {
     state: {},
@@ -6,7 +6,7 @@ export default {
     actions: {
         SEARCH({commit}, payload){
             return new Promise((resolve, reject) => {
-                instance.post('/utils/link', payload)
+                api.post('/utils/link', payload)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             resolve(resp)
