@@ -78,7 +78,6 @@
                     })
             },
             setData (err, albums) {
-                console.log(err)
                 if (err) {
                     this.error = err.toString()
                 } else {
