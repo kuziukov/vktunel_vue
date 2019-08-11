@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from '../api'
 
 export default {
     state: {
@@ -8,7 +8,7 @@ export default {
     actions: {
         COMMUNITY_TITLE({commit}, community_id){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://localhost:5000/v1.0/community/'+community_id, method: 'GET' })
+                api.get('/community/'+community_id)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             console.log(resp.data)
@@ -21,6 +21,23 @@ export default {
                     .catch(err => {
                         reject(err)
                     })
+            })
+        },
+        COMMUNITIES({commit}){
+            return new Promise((resolve, reject) => {
+                api.get('/communities')
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] === 200){
+                            resolve(resp)
+                        }
+                        else{
+                            reject();
+                        }
+                    })
+                    .catch(err => {
+                        reject(err)
+                    })
+
             })
         },
     },

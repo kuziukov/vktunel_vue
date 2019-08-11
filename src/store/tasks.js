@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from '../api'
 
 export default {
     state: {},
@@ -6,20 +6,33 @@ export default {
     actions: {
         CREATETASK({commit}, payload){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://localhost:5000/v1.0/tasks', data: payload, method: 'POST' })
+                api.post('/tasks', payload)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             console.log(resp.data)
-
                             resolve(resp)
                         }
                         else{
-
                             reject();
                         }
                     })
                     .catch(err => {
-
+                        reject(err)
+                    })
+            })
+        },
+        TASKS({commit}){
+            return new Promise((resolve, reject) => {
+                api.get('/tasks')
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] == 200){
+                            resolve(resp)
+                        }
+                        else{
+                            reject();
+                        }
+                    })
+                    .catch(err => {
                         reject(err)
                     })
             })
