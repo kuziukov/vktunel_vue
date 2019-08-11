@@ -66,16 +66,8 @@ let router = new Router({
         component: CallBack
       },
       {
-        path: '/404',
-        name: '404',
-        component: NotFound,
-        meta: {
-          title: 'Страница не найдена - Wlusm',
-        }
-      },
-      {
         path: '*',
-        redirect: '/404',
+        component: NotFound,
         meta: {
           title: 'Страница не найдена - Wlusm',
         }

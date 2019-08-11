@@ -39,7 +39,7 @@
 
 <script>
 
-  import axios from 'axios'
+  import store from '../store'
 
   export default {
     name: 'Community',
@@ -59,7 +59,7 @@
       }
     },
     beforeRouteEnter(to, from, next){
-      axios.get('http://localhost:5000/v1.0/communities')
+      store.dispatch('COMMUNITIES')
               .then(resp => {
                 if ('code' in resp.data && resp.data['code'] == 200){
                   next(vm => vm.setData(null, resp.data.result.items))

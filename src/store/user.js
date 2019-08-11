@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from '../api'
 
 export default {
     state: {
@@ -21,9 +22,9 @@ export default {
         },
     },
     actions: {
-        SIGNUP({commit}, code){
+        SIGNUP({commit}, payload){
             return new Promise((resolve, reject) => {
-                axios({url: 'http://localhost:5000/v1.0/authorization/code', data: code, method: 'POST' })
+                api.post('/authorization/code', payload)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             var access_token = resp.data['result']['access_token'];
