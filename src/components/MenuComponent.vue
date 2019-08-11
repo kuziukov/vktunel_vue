@@ -18,8 +18,7 @@
 
 
 <script>
-
-    import axios from 'axios'
+    import api from '../api'
 
     export default {
         name: 'MenuComponent',
@@ -61,7 +60,7 @@
         },
         beforeCreate() {
             if(this.$store.getters.isAuthenticated){
-                axios.get('http://localhost:5000/v1.0/profile')
+                api.get('http://localhost:5000/v1.0/profile')
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             this.$store.commit('USER_UPDATED', resp.data.result)
