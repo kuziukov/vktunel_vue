@@ -43,6 +43,7 @@
 
 <script>
     import axios from 'axios'
+    import api from '../api'
 
     export default {
         name: 'Albums',
@@ -56,8 +57,7 @@
         methods: {
             createTask: function (album_id) {
                 let community_id = this.$route.params.cummunity_id;
-                this.$store.dispatch('CREATETASK', { 'subject_id': '-'+community_id, 'album_id': album_id })
-                    .then(resp => {
+                this.$store.dispatch('CREATETASK', { 'subject_id': '-'+community_id, 'album_id': album_id }).then(resp => {
                         if ('code' in resp.data && resp.data['code'] == 200){
                             console.log(resp.data)
                             this.$notify({
@@ -67,8 +67,7 @@
                                 text: 'Альбом '+ resp.data.result.task.album_name+ ' добавлен в загрузки'
                             });
                         }
-                    })
-                    .catch(err => {
+                    }).catch(err => {
                         this.$notify({
                             group: 'foo',
                             title: 'Произошла ошибка',
@@ -95,8 +94,8 @@
         beforeRouteEnter(to, from, next){
 
             axios.all([
-                axios.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id+'/albums'),
-                axios.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id)
+                api.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id+'/albums'),
+                api.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id)
             ])
             .then(axios.spread((AlbumsRes, CommunityRes) => {
 
