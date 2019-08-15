@@ -58,8 +58,7 @@
             createTask: function (album_id) {
                 let community_id = this.$route.params.cummunity_id;
                 this.$store.dispatch('CREATETASK', { 'subject_id': '-'+community_id, 'album_id': album_id }).then(resp => {
-                        if ('code' in resp.data && resp.data['code'] == 200){
-                            console.log(resp.data)
+                        if ('code' in resp.data && resp.data['code'] === 200){
                             this.$notify({
                                 group: 'foo',
                                 title: 'Успех',
@@ -67,7 +66,7 @@
                                 text: 'Альбом '+ resp.data.result.task.album_name+ ' добавлен в загрузки'
                             });
                         }
-                    }).catch(err => {
+                    }).catch(() => {
                         this.$notify({
                             group: 'foo',
                             title: 'Произошла ошибка',
@@ -101,21 +100,17 @@
 
                 if (('code' in AlbumsRes.data && AlbumsRes.data['code'] === 200) && ('code' in CommunityRes.data && CommunityRes.data['code'] === 200)){
                     next(vm => {
-                        vm.setData(null, AlbumsRes.data.result.items)
+                        vm.setData(null, AlbumsRes.data.result.items);
                         vm.setCommunity(null, CommunityRes.data.result)
                     });
                 }
             }))
             .catch(err => {
                 next(vm => {
-                    vm.setData(err, null)
+                    vm.setData(err, null);
                     vm.setCommunity(err, null)
                 });
             });
         },
     }
 </script>
-
-<style scoped>
-
-</style>

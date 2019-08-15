@@ -66,7 +66,7 @@
                             this.$store.commit('USER_UPDATED', resp.data.result)
                         }
                     })
-                    .catch(err => {
+                    .catch(() => {
                         this.$store.commit('LOGOUT')
                     })
             }
