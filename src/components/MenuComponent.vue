@@ -8,7 +8,6 @@
           </nav>
           <router-link class="btn btn-outline-primary" :to="{ name: 'Tasks' }" v-if="isAuthenticated">
               {{profile.name}}
-              <span class="badge badge-pill bvdge-primary">1</span>
           </router-link>
           <a class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</a>
       </div>
