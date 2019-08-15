@@ -63,7 +63,10 @@ let router = new Router({
       {
         path: '/callback',
         name: 'CallBack',
-        component: CallBack
+        component: CallBack,
+        meta: {
+          title: 'Ожидайте - Wlusm',
+        }
       },
       {
         path: '*',
