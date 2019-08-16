@@ -52,7 +52,7 @@ let router = new Router({
         }
       },
       {
-        path: '/community/:cummunity_id/albums',
+        path: '/albums/:cummunity_id',
         name: 'Albums',
         component: Albums,
         meta: {

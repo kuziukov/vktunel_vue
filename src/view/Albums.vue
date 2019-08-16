@@ -9,7 +9,7 @@
         <nav aria-label="breadcrumb" v-if="!error">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link :to="{ name: 'Community' }">Сообщество</router-link></li>
-                <li class="breadcrumb-item"><router-link :to="{ name: 'Albums', params: { cummunity_id: community ? community.id : '#' } }">{{community ? community.name : 'Сообщество'}}</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="{ name: 'Albums', params: { cummunity_id: object ? object.id : '#' } }">{{object ? object.name : 'Сообщество'}}</router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">Название альбома</li>
             </ol>
         </nav>
@@ -51,7 +51,7 @@
             return{
                 albums: [],
                 error: null,
-                community: null
+                object: null
             }
         },
         methods: {
@@ -82,33 +82,33 @@
                     this.albums = albums
                 }
             },
-            setCommunity(err, community){
+            setObject(err, object){
                 if (err) {
                     this.error = err.toString()
                 } else {
-                    this.community = community
+                    this.object = object
                 }
             }
         },
         beforeRouteEnter(to, from, next){
 
             axios.all([
-                api.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id+'/albums'),
-                api.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id)
+                api.get('http://localhost:5000/v1.0/albums/'+to.params.cummunity_id),
+                api.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id.replace('-', ''))
             ])
-            .then(axios.spread((AlbumsRes, CommunityRes) => {
+            .then(axios.spread((AlbumsRes, ObjectRes) => {
 
-                if (('code' in AlbumsRes.data && AlbumsRes.data['code'] === 200) && ('code' in CommunityRes.data && CommunityRes.data['code'] === 200)){
+                if (('code' in AlbumsRes.data && AlbumsRes.data['code'] === 200) && ('code' in ObjectRes.data && ObjectRes.data['code'] === 200)){
                     next(vm => {
                         vm.setData(null, AlbumsRes.data.result.items);
-                        vm.setCommunity(null, CommunityRes.data.result)
+                        vm.setObject(null, ObjectRes.data.result)
                     });
                 }
             }))
             .catch(err => {
                 next(vm => {
                     vm.setData(err, null);
-                    vm.setCommunity(err, null)
+                    vm.setObject(err, null)
                 });
             });
         },

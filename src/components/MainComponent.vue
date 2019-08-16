@@ -46,11 +46,11 @@
             search (e) {
                 this.$store.dispatch('SEARCH', { "link": this.query })
                     .then(resp => {
-                        if (resp.data.result.type == 'user'){
-
+                        if (resp.data.result.type === 'user'){
+                            this.$router.push({ name: 'Albums', params: { cummunity_id: `${resp.data.result.object_id}`}})
                         }
-                        else if (resp.data.result.type == 'group'){
-                            this.$router.push({ name: 'Albums', params: { cummunity_id: resp.data.result.object_id } })
+                        else if (resp.data.result.type === 'group'){
+                            this.$router.push({ name: 'Albums', params: { cummunity_id: `-${resp.data.result.object_id}` } })
                         }
                     }).catch(err => {
 
