@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     download: function(task_id){
-      window.open('https://wlusm.ru/files/'+task_id)
+      window.open('https://api.wlusm.ru/files/'+task_id)
     },
     setData (err, tasks) {
       if (err) {
