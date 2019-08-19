@@ -1,19 +1,17 @@
-FROM node:carbon
-
-RUN mkdir -p /usr/src/app
-
-WORKDIR /usr/src/app
-ADD . /usr/src/app
-RUN npm install
-
-ENV NODE_ENV=production
-
+FROM node:12.8.1-alpine as build
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json /app/package.json
+RUN npm install --silent
+RUN npm install @vue/cli@3.7.0 -g
+COPY . /app
 RUN npm run build
 
-# Remove unused directories
-RUN rm -rf ./src
-RUN rm -rf ./build
 
-# Port to expose
-EXPOSE 8080
-CMD [ "npm", "start" ]
+# production environment
+FROM nginx:1.16.0-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY data/nginx /etc/nginx/conf.d
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
