@@ -59,7 +59,7 @@ export default {
   name: 'Landing',
   methods: {
       login: function () {
-        window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=http://localhost:8080/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
+        window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=https://wlusm.ru/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
       }
   },
 }

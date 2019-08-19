@@ -91,8 +91,8 @@
         beforeRouteEnter(to, from, next){
 
             axios.all([
-                api.get('http://localhost:5000/v1.0/albums/'+to.params.cummunity_id),
-                api.get('http://localhost:5000/v1.0/community/'+to.params.cummunity_id.replace('-', ''))
+                api.get('https://wlusm.ru/v1.0/albums/'+to.params.cummunity_id),
+                api.get('https://wlusm.ru/v1.0/community/'+to.params.cummunity_id.replace('-', ''))
             ]).then(axios.spread((AlbumsRes, ObjectRes) => {
 
                 if (('code' in AlbumsRes.data && AlbumsRes.data['code'] === 200) && ('code' in ObjectRes.data && ObjectRes.data['code'] === 200)){
