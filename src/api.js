@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // create a new axios api
 const api = axios.create({
-    baseURL: 'http://localhost:5000/v1.0',
+    baseURL: 'https://api.wlusm.ru/v1.0',
     timeout: 10000,
     headers: {'Authorization': localStorage.getItem('token')}
 });
