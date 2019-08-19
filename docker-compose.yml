@@ -1,5 +1,14 @@
 version: '3'
 services:
+  server:
+    build:
+      context: .
+    command: python app.py
+    depends_on:
+      - nginx
+      - certbot
+    ports:
+      - 80:80
   nginx:
     image: nginx:1.15-alpine
     restart: unless-stopped
