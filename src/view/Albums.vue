@@ -55,7 +55,7 @@
         methods: {
             createTask: function (album_id) {
                 let community_id = this.$route.params.cummunity_id;
-                this.$store.dispatch('CREATETASK', { 'subject_id': '-'+community_id, 'album_id': album_id }).then(resp => {
+                this.$store.dispatch('CREATETASK', { 'subject_id': community_id, 'album_id': album_id }).then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             this.$notify({
                                 group: 'foo',
