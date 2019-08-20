@@ -92,7 +92,7 @@
 
             axios.all([
                 api.get('/albums/'+to.params.cummunity_id),
-                to.params.cummunity_id < 0 ? api.get('/community/'+to.params.cummunity_id.replace('-', '')) : api.get('/profile/'+to.params.cummunity_id.replace('-', ''))
+                api.get('/'+ (to.params.cummunity_id < 0 ? 'community' : 'profile') + '/' +to.params.cummunity_id.replace('-', ''))
             ]).then(axios.spread((AlbumsRes, ObjectRes) => {
 
                 if (('code' in AlbumsRes.data && AlbumsRes.data['code'] === 200) && ('code' in ObjectRes.data && ObjectRes.data['code'] === 200)){
