@@ -7,8 +7,8 @@
         <main role="main" class="container">
             <nav aria-label="breadcrumb" v-if="!error">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><router-link :to="{ name: 'Community' }">Сообщество</router-link></li>
-                    <li class="breadcrumb-item"><router-link :to="{ name: 'Albums', params: { cummunity_id: object ? object.id : '#' } }">{{object ? object.name : 'Сообщество'}}</router-link></li>
+                    <li class="breadcrumb-item"><router-link :to="{ name: 'Community' }">{{ object ? 'name' in object ? 'Сообщество' : 'Пользователь' : 'Не определено' }}</router-link></li>
+                    <li class="breadcrumb-item"><router-link :to="{ name: 'Albums', params: { cummunity_id: object ? object.id : '#' } }">{{ object ? 'name' in object ? object.name : `${object.first_name + ' ' + object.last_name}` : 'Не определено'}}</router-link></li>
                     <li class="breadcrumb-item active" aria-current="page">Название альбома</li>
                 </ol>
             </nav>
@@ -92,7 +92,7 @@
 
             axios.all([
                 api.get('/albums/'+to.params.cummunity_id),
-                api.get('/community/'+to.params.cummunity_id.replace('-', ''))
+                to.params.cummunity_id < 0 ? api.get('/community/'+to.params.cummunity_id.replace('-', '')) : api.get('/profile/'+to.params.cummunity_id.replace('-', ''))
             ]).then(axios.spread((AlbumsRes, ObjectRes) => {
 
                 if (('code' in AlbumsRes.data && AlbumsRes.data['code'] === 200) && ('code' in ObjectRes.data && ObjectRes.data['code'] === 200)){
