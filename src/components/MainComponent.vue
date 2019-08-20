@@ -13,7 +13,7 @@
             <div class="input-group">
                 <input class="form-control" id="query" name="query" v-model="query" placeholder="https://vk.com/fest" type="text" value="" v-on:keydown.enter.prevent="search">
                 <div class="input-group-append">
-                    <button class="btn btn-secondary" type="button" v-on:click="search">
+                    <button class="btn btn-outline-secondary" type="button" v-on:click="search">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
