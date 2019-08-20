@@ -3,6 +3,7 @@
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
       <h1 class="display-4">Список поставленных вами задач</h1>
       <p class="lead">Ниже вы можете увидеть список поставленных вами задач и статус их исполнения. Как только задача будет выполнена, вы получите ссылку на скачивание архива. Всегда готов вам помочь.</p>
+      <p class="lead">Если вдруг вы захотите выйти, сможете сделать это <a href="#" @click="logout">здесь</a> </p>
     </div>
 
     <main role="main" class="container">
@@ -44,6 +45,10 @@ export default {
     }
   },
   methods: {
+    logout: function () {
+      this.$store.commit('LOGOUT');
+      this.$router.push('/');
+    },
     download: function(task_id){
       window.open('https://api.wlusm.ru/files/'+task_id)
     },
