@@ -17,8 +17,6 @@
 
 
 <script>
-    import api from '../api'
-
     export default {
         name: 'MenuComponent',
         computed : {
@@ -52,6 +50,15 @@
                     ]
             },
         },
+        watch: {
+            isAuthenticated: function (next, prev) {
+                if(next){
+                    this.$store.dispatch('GET_PROFILE')
+                        .then().catch().finally(() => {
+                    });
+                }
+            }
+        },
         methods: {
             login: function () {
                 window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=https://wlusm.ru/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
@@ -59,15 +66,9 @@
         },
         beforeCreate() {
             if(this.$store.getters.isAuthenticated){
-                api.get('/profile')
-                    .then(resp => {
-                        if ('code' in resp.data && resp.data['code'] === 200){
-                            this.$store.commit('USER_UPDATED', resp.data.result)
-                        }
-                    })
-                    .catch(() => {
-                        this.$store.commit('LOGOUT')
-                    })
+                this.$store.dispatch('GET_PROFILE')
+                    .then().catch().finally(() => {
+                });
             }
         },
     }

@@ -6,13 +6,13 @@ import router from './router'
 import axios from 'axios'
 import store from './store.js'
 
-Vue.use(Notifications)
+Vue.use(Notifications);
 
-Vue.prototype.$http = axios
-Vue.config.productionTip = false
-axios.defaults.headers.common['Content-Type'] = 'application/json'
+Vue.prototype.$http = axios;
+Vue.config.productionTip = false;
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('token');
 if (token) {
     Vue.prototype.$http.defaults.headers.common['Authorization'] = token
 }

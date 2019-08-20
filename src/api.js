@@ -1,19 +1,21 @@
 import axios from 'axios'
 
-// create a new axios api
+
 const api = axios.create({
     baseURL: 'https://api.wlusm.ru/v1.0',
     timeout: 10000,
     headers: {'Authorization': localStorage.getItem('token')}
 });
 
-// before a request is made start the nprogress
+
 api.interceptors.request.use(config => {
+    let token = localStorage.getItem('token');
+    config.headers.Authorization = token;
+    config.headers.common['Authorization'] = token;
     NProgress.start();
     return config
 });
 
-// before a response is returned stop nprogress
 api.interceptors.response.use(response => {
     NProgress.done();
         return response

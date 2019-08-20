@@ -44,7 +44,22 @@ export default {
                 commit('LOGOUT');
                 resolve()
             })
-        }
+        },
+        GET_PROFILE({commit}){
+            return new Promise((resolve, reject) => {
+                api.get('/profile')
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] === 200){
+                            commit('USER_UPDATED', resp.data.result);
+                            resolve(resp);
+                        }
+                    })
+                    .catch(() => {
+                        commit('LOGOUT');
+                        reject();
+                    })
+            })
+        },
     },
     getters: {
         isAuthenticated: state => !!state.token,
