@@ -54,7 +54,7 @@
                         if ('code' in resp.data && resp.data['code'] === 200){
                             this.$notify({
                                 group: 'foo',
-                                title: 'Успех',
+                                title: 'Задача добавлена в загрузку',
                                 type: 'success',
                                 text: 'Альбом '+ resp.data.result.task.album_name+ ' добавлен в загрузки'
                             });
