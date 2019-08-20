@@ -2,7 +2,7 @@
     <div>
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <h1 class="display-4">Список альбомов</h1>
-            <p class="lead">Посмотрите ниже и вы увидите список доступных для загрузки альбомов. Нажмите на кнопку «Добавить в (Загрузить)», чтобы добавить альбом в список на загрузку. Всегда рад помочь :)</p>
+            <p class="lead">Посмотрите ниже и вы увидите список доступных для загрузки альбомов. Нажмите на кнопку «Добавить в (Загрузить)», чтобы добавить альбом в список на загрузку. </p>
         </div>
         <main role="main" class="container">
             <nav aria-label="breadcrumb" v-if="!error">
@@ -29,11 +29,6 @@
                             <span class="d-block">Фотографий в альбоме: {{album.size}}. Дата создания альбома: {{album.created}}</span>
                         </div>
                     </div>
-
-                <small class="d-block text-right mt-3">
-                    <a href="#">All suggestions</a>
-                </small>
-
             </div>
         </main>
     </div>

@@ -2,7 +2,7 @@
 <div>
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
       <h1 class="display-4">Список сообществ</h1>
-      <p class="lead">Посмотрите ниже и вы увидите список доступных вам сообществ. Нажмите на кнопку «Список альбомов», чтобы перейти к списку альбомов сообщества. Всегда рад помочь :)</p>
+      <p class="lead">Посмотрите ниже и вы увидите список доступных вам сообществ. Нажмите на кнопку «Список альбомов», чтобы перейти к списку альбомов сообщества. </p>
     </div>
 
     <main role="main" class="container">
@@ -27,10 +27,6 @@
               <span class="d-block">Описание сообщества, возможно количество альбомов и еще что-то</span>
             </div>
           </div>
-
-        <small class="d-block text-right mt-3">
-          <a href="#">All suggestions</a>
-        </small>
       </div>
 
     </main>
