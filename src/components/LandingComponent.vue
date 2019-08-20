@@ -15,7 +15,7 @@
             <h1 class="card-title pricing-card-title">₽0 <small class="text-muted">/ мес</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
               <li>1к фотографий</li>
-              <li>Не более 5 альбомов</li>
+              <li>Не более 10 альбомов</li>
             </ul>
             <button type="button" @click="login" class="btn btn-lg btn-block btn-outline-primary">Присоединяйся бесплатно</button>
           </div>
@@ -25,9 +25,9 @@
             <h4 class="my-0 font-weight-normal">Чашечка кофе</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title">₽80 <small class="text-muted">/ мес</small></h1>
+            <h1 class="card-title pricing-card-title">₽100 <small class="text-muted">/ мес</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
-              <li>4к фотографий</li>
+              <li>Неограниченно фотографий</li>
               <li>20 альбомов</li>
             </ul>
             <button type="button" class="btn btn-lg btn-block btn-primary">Начни сейчас</button>
@@ -43,7 +43,7 @@
               <li>Неограниченно фотографий</li>
               <li>Неограничено альбомов</li>
             </ul>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Свяжитесь с нами</button>
+            <button type="button" class="btn btn-lg btn-block btn-primary">Начни на безлимите</button>
           </div>
         </div>
       </div>
