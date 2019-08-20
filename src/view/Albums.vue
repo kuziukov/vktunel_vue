@@ -26,7 +26,7 @@
                                 <strong class="text-gray-dark">{{album.title}}</strong>
                                 <a href="#" @click="createTask(album.id)">Добавить в (Загрузить)</a>
                             </div>
-                            <span class="d-block">Фотографий в альбоме: {{album.size}}. Дата создания альбома: {{album.created}}</span>
+                            <span class="d-block">Фотографий в альбоме: {{album.size}}. Дата создания альбома: {{ album.created | formatDate }}</span>
                         </div>
                     </div>
             </div>
@@ -37,6 +37,7 @@
 <script>
     import axios from 'axios'
     import api from '../api'
+    import moment from 'moment'
 
     export default {
         name: 'Albums',
@@ -83,6 +84,14 @@
                 }
             }
         },
+        filters: {
+            formatDate: function (value) {
+                if (value) {
+                    return moment.unix(parseInt(value)).format('MMMM D, Y')
+                }
+                return 'неизвестно'
+            }
+        },
         beforeRouteEnter(to, from, next){
 
             axios.all([
@@ -104,4 +113,5 @@
             });
         },
     }
+
 </script>
