@@ -10,25 +10,15 @@
         </div>
 
         <form class="needs-validation" role="form" method="POST">
-            <div class="form-group has-search">
-                <span class="fa fa-search form-control-feedback"></span>
-                <form class="needs-validation" role="form" method="POST">
-                    <div class="form-group has-search">
-                        <span icon="search" class="fa fa-search form-control-feedback"></span>
-
-                        <div class="input-group mb-3">
-                            <input class="form-control" id="query" name="query" v-model="query" placeholder="https://vk.com/fest" type="text" value="" v-on:keydown.enter.prevent="search">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" v-on:click="search">Искать</button>
-                            </div>
-                        </div>
-                    </div>
-                    <input id="csrf_token" name="csrf_token" type="hidden" value="ImIwNGVkOTdlMzU3Y2I1MWZhMTBlZGNiMDY1NWU5NGY2Mzc2OTJmNWIi.XSWvwg.SsGjqYxFEGk2rK79rju4-araBTw">
-                </form>
+            <div class="input-group">
+                <input class="form-control" id="query" name="query" v-model="query" placeholder="https://vk.com/fest" type="text" value="" v-on:keydown.enter.prevent="search">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="button" v-on:click="search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
             </div>
-
         </form>
-
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
             <p class="mb-1">© 2019 Wlusm</p>
@@ -73,26 +63,3 @@
         },
     }
 </script>
-
-<style scoped>
-    .main {
-        width: 50%;
-        margin: 50px auto;
-    }
-
-    .has-search .form-control {
-        padding-left: 2.375rem;
-    }
-
-    .has-search .form-control-feedback {
-        position: absolute;
-        z-index: 2;
-        display: block;
-        width: 2.375rem;
-        height: 2.375rem;
-        line-height: 2.375rem;
-        text-align: center;
-        pointer-events: none;
-        color: #aaa;
-    }
-</style>
