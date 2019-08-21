@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <MenuComponent></MenuComponent>
-    <notifications group = "foo" position="top right" width="30%" classes="my-style" >
+    <notifications group = "foo" position="top right" width="30%" >
       <template slot="body" slot-scope="props">
 
         <div :class="'alert alert-' + props.item.type" role="alert">
-          <strong>{{props.item.title}}</strong>
-          <p>{{props.item.text}}</p>
+          <strong>{{props.item.title}}</strong> <br>
+          <div v-html="props.item.text"></div>
         </div>
 
       </template>

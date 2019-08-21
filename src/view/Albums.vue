@@ -57,7 +57,7 @@
                                 group: 'foo',
                                 title: 'Задача добавлена в загрузку',
                                 type: 'success',
-                                text: 'Альбом '+ resp.data.result.task.album_name+ ' добавлен в загрузки'
+                                text: 'Альбом "'+ resp.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
                             });
                         }
                     }).catch(() => {
