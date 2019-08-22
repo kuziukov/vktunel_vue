@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-            <h1 class="display-4">Загрузка альбома сообщества по ссылке</h1>
-            <p class="lead">Укажите ссылку на сообщество и мы загрузим его для вас.</p>
+            <h1 class="display-4">Загрузка альбома по ссылке</h1>
+            <p class="lead">Укажите ссылку на сообщество или пользователя и мы загрузим его для вас.</p>
         </div>
 
         <div class="alert alert-danger" v-if="error">
