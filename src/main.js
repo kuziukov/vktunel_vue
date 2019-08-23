@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Notifications from 'vue-notification'
+import VueYandexMetrika from 'vue-yandex-metrika'
 
 import App from './App.vue'
 import router from './router'
@@ -7,6 +8,12 @@ import axios from 'axios'
 import store from './store.js'
 
 Vue.use(Notifications);
+
+Vue.use(VueYandexMetrika, {
+    id: 50641489,
+    router: router,
+    env: process.env.NODE_ENV
+});
 
 Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
