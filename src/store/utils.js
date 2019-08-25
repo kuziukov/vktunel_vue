@@ -20,6 +20,22 @@ export default {
                     })
             })
         },
+        SUBSCRIBE({commit}, payload){
+            return new Promise((resolve, reject) => {
+                api.post('/subscription/fcm', payload)
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] === 200){
+                            resolve(resp)
+                        }
+                        else{
+                            reject();
+                        }
+                    })
+                    .catch(err => {
+                        reject(err)
+                    })
+            })
+        },
     },
     getters: {}
 }

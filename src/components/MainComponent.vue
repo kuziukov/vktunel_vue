@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <button class="btn btn-outline-secondary" type="button" v-on:click="subscribe">
+            Подписаться
+        </button>
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <h1 class="display-4">Загрузка альбома по ссылке</h1>
             <p class="lead">Укажите ссылку на сообщество или пользователя и мы загрузим его для вас.</p>
@@ -29,6 +32,8 @@
 
 <script>
 
+    import { askForPermissioToReceiveNotifications } from '../push-notification';
+
     export default {
         name: 'Main',
         data(){
@@ -38,6 +43,19 @@
             }
         },
         methods: {
+            subscribe: async function () {
+                let token = await askForPermissioToReceiveNotifications();
+                let payload = {
+                    "token": token
+                }
+                this.$store.dispatch('SUBSCRIBE', payload).then(resp => {
+                    if ('code' in resp.data && resp.data['code'] == 200){
+                        console.log(resp)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
             search (e) {
                 this.$store.dispatch('SEARCH', { "link": this.query })
                     .then(resp => {
