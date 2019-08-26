@@ -87,7 +87,7 @@
                     if(!(this.systemToken === token)){
                         this.$store.dispatch('subscribe', payload).then(resp => {
                             if ('code' in resp.data && resp.data['code'] === 200){
-                                console.log(resp)
+                                //console.log(resp)
                             }
                         }).catch(err => {
                             console.log(err)

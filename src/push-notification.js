@@ -12,11 +12,7 @@ export const askForPermissioToReceiveNotifications = async () => {
 
     try{
         let token = await messaging.getToken();
-        if (token){
-            console.log(token);
-            return token;
-        }
-        return null
+        return token ? token : null;
     }
     catch (err) {
         console.warn('При получении токена произошла ошибка.', err);
