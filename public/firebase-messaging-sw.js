@@ -24,3 +24,8 @@ messaging.setBackgroundMessageHandler(function(payload) {
     return self.registration.showNotification(notificationTitle,
         notificationOptions);
 });
+
+self.addEventListener('notificationclick', function(event) {
+    event.notification.close();
+    event.waitUntil(self.clients.openWindow('https://wlusm.ru/tasks'));
+});
