@@ -1,5 +1,4 @@
 <template>
-
     <div>
       <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
           <img src="/cloud_logo.svg" width="50" height="50">
@@ -10,6 +9,9 @@
           <router-link class="btn btn-outline-primary" :to="{ name: 'Tasks' }" v-if="isAuthenticated">
               {{profile.name}}
           </router-link>
+          <button class="btn btn-outline-secondary" type="button" v-on:click="subscribe">
+              Подписаться
+          </button>
           <a class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</a>
       </div>
     </div>
@@ -18,9 +20,13 @@
 
 
 <script>
+
+    import { askForPermissioToReceiveNotifications } from '../push-notification';
+
     export default {
         name: 'MenuComponent',
         computed : {
+            isSubscribed : function(){ return this.$store.getters.token},
             isAuthenticated : function(){ return this.$store.getters.isAuthenticated},
             profile: function(){ return this.$store.getters.profile},
             menuItems : function() {
@@ -60,7 +66,41 @@
                 }
             }
         },
+        async created(){
+            let requestPermission = await Notification.requestPermission();
+
+            if(requestPermission === 'denied'){
+                console.log('Permission wasn\'t granted. Allow a retry.');
+                return;
+            }
+
+            if(requestPermission === 'default'){
+                console.log('The permission request was dismissed.');
+                return;
+            }
+            this.subscribe();
+        },
         methods: {
+            subscribe: async function () {
+                let token = await askForPermissioToReceiveNotifications();
+                if (token){
+                    let payload = {
+                        "token": token
+                    };
+                    if(!(this.isSubscribed === token)){
+                        this.$store.dispatch('subscribe', payload).then(resp => {
+                            if ('code' in resp.data && resp.data['code'] === 200){
+                                console.log(resp)
+                            }
+                        }).catch(err => {
+                            console.log(err)
+                        })
+
+                    }
+
+                }
+
+            },
             login: function () {
                 window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=https://wlusm.ru/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
             }

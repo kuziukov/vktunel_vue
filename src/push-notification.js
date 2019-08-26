@@ -4,15 +4,22 @@ export const initializeFirebase = () => {
     firebase.initializeApp({
         messagingSenderId: "900983135054"
     });
-}
+};
 
 export const askForPermissioToReceiveNotifications = async () => {
-    try {
-        const messaging = firebase.messaging();
-        await messaging.requestPermission();
-        const token = await messaging.getToken();
-        return token;
-    } catch (error) {
-        console.error(error);
+
+    const messaging = firebase.messaging();
+
+    try{
+        let token = await messaging.getToken();
+        if (token){
+            console.log(token);
+            return token;
+        }
+        return null
     }
-}
+    catch (err) {
+        console.warn('При получении токена произошла ошибка.', err);
+    }
+    return null;
+};

@@ -1,12 +1,19 @@
-import api from '../api'
+import api from "../api";
 
 export default {
-    state: {},
-    mutations: {},
+    state: {
+        notify_token: localStorage.getItem('notify_token') || '',
+    },
+    mutations: {
+        SET_TOKEN(state, token){
+            state.notify_token = token;
+            localStorage.setItem('notify_token', token);
+        },
+    },
     actions: {
-        SEARCH({commit}, payload){
+        subscribe({commit}, payload){
             return new Promise((resolve, reject) => {
-                api.post('/utils/link', payload)
+                api.post('/subscription/fcm', payload)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             resolve(resp)
@@ -21,5 +28,8 @@ export default {
             })
         },
     },
-    getters: {}
+    getters: {
+        isSubscribed: state => !!state.notify_token,
+        token: state => state.notify_token,
+    }
 }
