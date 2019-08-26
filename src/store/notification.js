@@ -13,7 +13,7 @@ export default {
     actions: {
         subscribe({commit}, payload){
             return new Promise((resolve, reject) => {
-                api.post('/subscription/fcm', payload)
+                api.post('/subscription', payload)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             commit('notification_token', payload.token);
