@@ -64,18 +64,20 @@
             }
         },
         async created(){
-            let requestPermission = await Notification.requestPermission();
+            if(this.isAuthenticated){
+                let requestPermission = await Notification.requestPermission();
 
-            if(requestPermission === 'denied'){
-                console.log('Permission wasn\'t granted. Allow a retry.');
-                return;
-            }
+                if(requestPermission === 'denied'){
+                    console.log('Permission wasn\'t granted. Allow a retry.');
+                    return;
+                }
 
-            if(requestPermission === 'default'){
-                console.log('The permission request was dismissed.');
-                return;
+                if(requestPermission === 'default'){
+                    console.log('The permission request was dismissed.');
+                    return;
+                }
+                this.subscribe();
             }
-            this.subscribe();
         },
         methods: {
             subscribe: async function () {
