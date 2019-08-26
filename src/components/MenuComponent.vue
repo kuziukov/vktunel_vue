@@ -9,9 +9,6 @@
           <router-link class="btn btn-outline-primary" :to="{ name: 'Tasks' }" v-if="isAuthenticated">
               {{profile.name}}
           </router-link>
-          <button class="btn btn-outline-secondary" type="button" v-on:click="subscribe">
-              Подписаться
-          </button>
           <a class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</a>
       </div>
     </div>
@@ -26,7 +23,7 @@
     export default {
         name: 'MenuComponent',
         computed : {
-            isSubscribed : function(){ return this.$store.getters.token},
+            systemToken : function(){ return this.$store.getters.token},
             isAuthenticated : function(){ return this.$store.getters.isAuthenticated},
             profile: function(){ return this.$store.getters.profile},
             menuItems : function() {
@@ -87,7 +84,7 @@
                     let payload = {
                         "token": token
                     };
-                    if(!(this.isSubscribed === token)){
+                    if(!(this.systemToken === token)){
                         this.$store.dispatch('subscribe', payload).then(resp => {
                             if ('code' in resp.data && resp.data['code'] === 200){
                                 console.log(resp)

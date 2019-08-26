@@ -2,12 +2,12 @@ import api from "../api";
 
 export default {
     state: {
-        notify_token: localStorage.getItem('notify_token') || '',
+        notification: localStorage.getItem('notification') || '',
     },
     mutations: {
-        SET_TOKEN(state, token){
-            state.notify_token = token;
-            localStorage.setItem('notify_token', token);
+        notification_token(state, token){
+            state.notification = token;
+            localStorage.setItem('notification', token);
         },
     },
     actions: {
@@ -16,6 +16,7 @@ export default {
                 api.post('/subscription/fcm', payload)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
+                            commit('notification_token', payload.token);
                             resolve(resp)
                         }
                         else{
@@ -29,7 +30,7 @@ export default {
         },
     },
     getters: {
-        isSubscribed: state => !!state.notify_token,
-        token: state => state.notify_token,
+        isSubscribed: state => !!state.notification,
+        token: state => state.notification,
     }
 }
