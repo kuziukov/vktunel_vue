@@ -1,8 +1,14 @@
 <template>
     <div>
       <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-          <img src="/cloud_logo.svg" width="50" height="50">
-          <h5 class="my-0 mr-md-auto font-weight-normal">Wlusm</h5>
+          <router-link :to="{ name: 'Index' }">
+              <img src="/cloud_logo.svg" width="50" height="50">
+          </router-link>
+          <h5 class="my-0 mr-md-auto font-weight-normal">
+              <router-link style="text-decoration: none !important;" :to="{ name: 'Index' }">
+                  Wlusm
+              </router-link>
+          </h5>
           <nav class="my-2 my-md-0 mr-md-3">
               <router-link v-bind:key="item.id" v-for="item in menuItems" :to="{ name: item.route }" class="p-2 text-dark">{{item.title}}</router-link>
           </nav>
