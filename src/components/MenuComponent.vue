@@ -5,7 +5,7 @@
               <img src="/cloud_logo.svg" width="50" height="50">
           </router-link>
           <h5 class="my-0 mr-md-auto font-weight-normal">
-              <router-link style="text-decoration: none !important;" :to="{ name: 'Index' }">
+              <router-link style="text-decoration: none !important; color: #343a40!important" :to="{ name: 'Index' }">
                   Wlusm
               </router-link>
           </h5>
