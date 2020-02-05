@@ -15,17 +15,15 @@
                 <h6 class="border-bottom border-gray pb-2 mb-0">Список уведомлений</h6>
 
                 <div class="media text-muted pt-3" v-bind:key="notification.id" v-for="notification in notifications">
-                    <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#007bff"/>
-                        <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                    <svg class="bd-placeholder-img mr-3 rounded" width="35" height="35" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+                        <image :href="`/icons/${notification.type}.png`" height="35" width="35"/>
                     </svg>
                     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                         <div class="d-flex justify-content-between align-items-center w-100">
-                            <strong class="text-gray-dark" v-html="notification_title(notification)"></strong>
+                            <div class="text-gray-dark" v-html="notification_title(notification)"></div>
                             <a href="#" @click="notification_hide(notification.id)"><i class="fa fa-chevron-down"></i></a>
                         </div>
-                        <span class="d-block"><i class="fa fa-calendar-o"></i> {{ notification.created_at | formatDate }}</span>
+                        <i class="d-block"><i class="fa fa-calendar-o"></i> {{ notification.created_at | formatDate }}</i>
                     </div>
                 </div>
 
