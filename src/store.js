@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import generalModule from './store/general'
 import userModule from './store/user'
+import streamModule from "./store/stream";
 import communityModule from './store/community'
 import utilsModule from './store/utils'
 import tasksModule from './store/tasks'
@@ -17,6 +18,7 @@ export default new Vuex.Store({
         communityModule,
         notifyModule,
         utilsModule,
+        streamModule,
         tasksModule,
-    }
+    },
 })

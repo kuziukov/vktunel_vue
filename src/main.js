@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Notifications from 'vue-notification'
+import VueNativeSock from 'vue-native-websocket'
 import VueYandexMetrika from 'vue-yandex-metrika'
 import { initializeFirebase } from './push-notification';
 
@@ -20,13 +21,20 @@ Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
+Vue.use(VueNativeSock, 'ws://localhost:8083/', {
+    connectManually: true,
+    store: store,
+    format: 'json',
+});
+
+
 const token = localStorage.getItem('token');
 if (token) {
-    Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+    Vue.prototype.$http.defaults.headers.common['Authorization'] = token;
 }
 
 new Vue({
     render: h => h(App),
     router,
     store,
-}).$mount('#app')
+}).$mount('#app');

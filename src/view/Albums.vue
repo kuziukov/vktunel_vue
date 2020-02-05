@@ -14,7 +14,7 @@
             </nav>
 
             <div class="alert alert-warning text-center" role="alert" v-if="error">
-                Простите, но, похоже, у вас нет доступа к этому альбому. Нам очень жаль, <router-link :to="{ name: 'Community' }">вернуться</router-link>
+                Сожалеем, но альбом скрыт от пользователей настройками приватности, вы не можете получить к нему доступ. <router-link :to="{ name: 'Community' }">Вернуться</router-link>
             </div>
 
             <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="!error">
@@ -37,7 +37,7 @@
 <script>
     import axios from 'axios'
     import api from '../api'
-    import moment from 'moment'
+    import { formatDate } from "../utils";
 
     export default {
         name: 'Albums',
@@ -60,6 +60,8 @@
                                 text: 'Альбом "'+ resp.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
                             });
                         }
+
+
                     }).catch(() => {
                         this.$notify({
                             group: 'foo',
@@ -86,10 +88,7 @@
         },
         filters: {
             formatDate: function (value) {
-                if (value) {
-                    return moment.unix(parseInt(value)).format('MMMM D, Y')
-                }
-                return 'неизвестно'
+                return formatDate(value)
             }
         },
         beforeRouteEnter(to, from, next){

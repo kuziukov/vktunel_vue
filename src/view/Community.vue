@@ -55,18 +55,18 @@
       }
     },
     beforeRouteEnter(to, from, next){
-      store.dispatch('COMMUNITIES')
+        next(vm => vm.setData(null, vm.$store.getters.listOfCommunities['items']))
+    },
+    created: function () {
+        store.dispatch('COMMUNITIES')
               .then(resp => {
                 if ('code' in resp.data && resp.data['code'] == 200){
-                  next(vm => vm.setData(null, resp.data.result.items))
+                  this.setData(null, resp.data.result.items)
                 }
               })
               .catch(err => {
-                next(vm => vm.setData(err, null))
+                  this.setData(err, null)
               })
-    },
-    mounted: function () {
-
     }
   }
 </script>

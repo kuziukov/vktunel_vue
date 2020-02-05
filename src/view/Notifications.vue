@@ -1,0 +1,94 @@
+<template>
+    <div>
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-4">Страница уведомлений</h1>
+            <p class="lead">Здесь вы можете посмотреть все ваши действия на сервисе.</p>
+        </div>
+
+        <main role="main" class="container">
+
+            <div class="alert alert-info text-center" role="alert" v-if="notifications.length < 1">
+                У вас еще нет ни одного уведомления.
+            </div>
+
+            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="notifications.length > 0">
+                <h6 class="border-bottom border-gray pb-2 mb-0">Список уведомлений</h6>
+
+                <div class="media text-muted pt-3" v-bind:key="notification.id" v-for="notification in notifications">
+                    <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#007bff"/>
+                        <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                    </svg>
+                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <strong class="text-gray-dark" v-html="notification_title(notification)"></strong>
+                            <a href="#" @click="notification_hide(notification.id)"><i class="fa fa-chevron-down"></i></a>
+                        </div>
+                        <span class="d-block"><i class="fa fa-calendar-o"></i> {{ notification.created_at | formatDate }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </main>
+    </div>
+</template>
+
+<script>
+    import store from "../store";
+    import { make_notification_titles } from "../utils";
+    import { formatDate } from "../utils";
+
+    export default {
+        name: 'Notifications',
+        data(){
+            return{
+                notifications: [],
+                error:null,
+            }
+        },
+        filters: {
+            formatDate: function (value) {
+                return formatDate(value)
+            }
+        },
+        computed: {
+            listOfNotifications: function(){ return this.$store.getters.listOfNotifications},
+        },
+        methods: {
+            notification_title(notification){
+                return make_notification_titles(notification)
+            },
+            notification_hide(id){
+
+            },
+            setData (err, notifications) {
+                if (err) {
+                    this.error = err.toString()
+                } else {
+                    this.notifications = notifications
+                }
+            },
+        },
+        beforeRouteEnter(to, from, next){
+            next(vm => vm.setData(null, vm.$store.getters.listOfNotifications['items']))
+        },
+        created() {
+            store.dispatch('notifications')
+                .then(resp => {
+                    if ('code' in resp.data && resp.data['code'] === 200){
+                        this.setData(null, resp.data.result.items)
+                    }
+                })
+                .catch(err => {
+                    this.setData(err, null)
+                })
+        }
+    }
+</script>
+
+<style scoped>
+</style>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store.js'
 
+import Notifications from "./view/Notifications";
 import CallBack from '@/components/CallBack'
 
 import Community from '@/view/Community'
@@ -10,9 +11,10 @@ import Support from '@/view/Support'
 import Albums from '@/view/Albums'
 import Tasks from '@/view/Tasks'
 import Index from '@/view/Index'
+import Plans from "./view/Plans";
 
 
-Vue.use(Router)
+Vue.use(Router);
 
 let router = new Router({
     mode: 'history',
@@ -23,6 +25,14 @@ let router = new Router({
         component: Index,
         meta: {
           title: 'Новости - Wlusm',
+        }
+      },
+      {
+        path: '/plans',
+        name: 'Plans',
+        component: Plans,
+        meta: {
+          title: 'Тарифные планы - Wlusm',
         }
       },
       {
@@ -57,6 +67,15 @@ let router = new Router({
         component: Albums,
         meta: {
           title: 'Альбом - Wlusm',
+          requiresAuth: true,
+        }
+      },
+      {
+        path: '/notifications',
+        name: 'Notifications',
+        component: Notifications,
+        meta: {
+          title: 'Уведомления - Wlusm',
           requiresAuth: true,
         }
       },

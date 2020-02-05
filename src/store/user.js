@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import api from '../api'
 
 export default {
@@ -14,7 +15,7 @@ export default {
         LOGOUT(state){
             state.token = '';
             localStorage.removeItem('token');
-            delete api.defaults.headers.common['Authorization']
+            delete api.defaults.headers.common['Authorization'];
         },
         USER_UPDATED(state, user){
             state.user = user

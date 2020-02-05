@@ -2,9 +2,9 @@ import axios from 'axios'
 
 
 const api = axios.create({
-    baseURL: 'https://api.wlusm.ru/v1.0',
+    baseURL: 'http://localhost:5000/v1.0',
     timeout: 30000,
-    headers: {'Authorization': localStorage.getItem('token')}
+    headers: {'Authorization': localStorage.getItem('token')},
 });
 
 
@@ -17,12 +17,12 @@ api.interceptors.request.use(config => {
 });
 
 api.interceptors.response.use(response => {
-    NProgress.done();
+        NProgress.done();
         return response
     },
     error => {
         NProgress.done();
         return error
-    });
+});
 
 export default api

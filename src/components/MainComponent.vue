@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <h1 class="display-4">Загрузка альбома по ссылке</h1>
             <p class="lead">Укажите ссылку на сообщество или пользователя и мы загрузим его для вас.</p>
@@ -11,7 +12,7 @@
 
         <form class="needs-validation" role="form" method="POST">
             <div class="input-group">
-                <input class="form-control" id="query" name="query" v-model="query" placeholder="https://vk.com/fest" type="text" value="" v-on:keydown.enter.prevent="search">
+                <input class="form-control" id="query" name="query" v-model="query" placeholder="https://vk.com/durov" type="text" value="" v-on:keydown.enter.prevent="search">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" v-on:click="search">
                         <i class="fa fa-search"></i>
@@ -28,7 +29,6 @@
 </template>
 
 <script>
-
 
     export default {
         name: 'Main',

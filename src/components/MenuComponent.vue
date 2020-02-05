@@ -11,23 +11,66 @@
           </h5>
           <nav class="my-2 my-md-0 mr-md-3">
               <router-link v-bind:key="item.id" v-for="item in menuItems" :to="{ name: item.route }" class="p-2 text-dark">{{item.title}}</router-link>
+              <router-link class="p-2 text-dark" v-on:click.native="logout" v-if="isAuthenticated" to="/">Выход</router-link>
           </nav>
-          <router-link class="btn btn-outline-primary" :to="{ name: 'Tasks' }" v-if="isAuthenticated">
-              {{profile.name}}
-          </router-link>
-          <a class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</a>
+
+          <ul class="navbar-default nav navbar-nav navbar-right mr-md-4" v-if="isAuthenticated">
+              <li class="dropleft">
+                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="getNotifications(0, 5)"><i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></a>
+                  <ul class="dropdown-menu notify-drop">
+                      <div class="notify-drop-title">
+                          <div class="row">
+                              <div class="col-md-6 col-sm-6 col-xs-6">Недавние (<b>2</b>)</div>
+                              <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="#" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="все прочитанные"><i class="fa fa-dot-circle-o"></i></a></div>
+                          </div>
+                      </div>
+
+                      <div class="drop-content">
+                          <li v-bind:key="notification.id" v-for="notification in notifications">
+                              <div class="media">
+                                  <img class="col-md-3 col-sm-3 col-xs-3 rounded-circle" src="http://placehold.it/45x45" alt="Generic placeholder image">
+                                  <div class="media-body">
+                                      <p class="mt-0" v-html="notification_title(notification)"></p>
+                                  </div>
+                                  <a href="#" class="rIcon mr-md-3 mt-md-2"><i class="fa fa-dot-circle-o"></i></a>
+                              </div>
+                          </li>
+                      </div>
+                      <div class="notify-drop-footer text-center">
+                          <a href=""></a>
+                          <router-link class="p-2 text-dark" to="/notifications">Показать все</router-link>
+                      </div>
+                  </ul>
+              </li>
+          </ul>
+          <button class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</button>
       </div>
     </div>
 
 </template>
 
 
+
+
 <script>
 
+    $(function () {
+        $('.dropleft ul').click(function (e) {
+            e.stopPropagation();
+        });
+    });
+
     import { askForPermissioToReceiveNotifications } from '../push-notification';
+    import config from '../config';
+    import { make_notification_titles } from '../utils';
 
     export default {
         name: 'MenuComponent',
+        data(){
+            return{
+                notifications: []
+            }
+        },
         computed : {
             systemToken : function(){ return this.$store.getters.token},
             isAuthenticated : function(){ return this.$store.getters.isAuthenticated},
@@ -44,6 +87,10 @@
                             route: 'Community',
                         },
                         {
+                            title: 'Список задач',
+                            route: 'Tasks'
+                        },
+                        {
                             title: 'Поддержка',
                             route: 'Support',
                         }
@@ -54,11 +101,15 @@
                             route: 'Index',
                         },
                         {
+                            title: 'Тарифные планы',
+                            route: 'Plans',
+                        },
+                        {
                             title: 'Поддержка',
                             route: 'Support',
                         }
                     ]
-            },
+            }
         },
         watch: {
             isAuthenticated: function (next, prev) {
@@ -100,23 +151,164 @@
                         }).catch(err => {
                             console.log(err)
                         })
-
                     }
-
                 }
-
+            },
+            getNotifications: async function (start, limit) {
+                this.$store.dispatch('notifications', { 'start': start, 'limit': limit }).then(resp => {
+                    if ('code' in resp.data && resp.data['code'] === 200){
+                        this.notifications = resp.data['result']['items'];
+                        this.notifications.sort(function(x, y){
+                            return y.created_at - x.created_at;
+                        });
+                    }
+                }).catch(() => {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Произошла ошибка',
+                        type: 'warning',
+                        text: 'Извините, нам не удалось загрузить ваш альбом, попробуйте снова'
+                    });
+                })
+            },
+            notification_title: function (notification) {
+                return make_notification_titles(notification)
             },
             login: function () {
-                window.location = 'https://oauth.vk.com/authorize?client_id=7029024&display=page&redirect_uri=https://wlusm.ru/callback&scope=friends,photos,email,groups,offline&response_type=code&v=5.95';
+                window.location = config.authorizeLocation;
+            },
+            logout: function () {
+                this.$store.commit('LOGOUT');
+                this.$router.push('/');
             }
         },
         beforeCreate() {
             if(this.$store.getters.isAuthenticated){
                 this.$store.dispatch('GET_PROFILE')
                     .then().catch().finally(() => {
+                        this.notifications = this.$store.getters.listOfNotifications['items']
                 });
             }
         },
     }
 </script>
 
+
+<style>
+    .navbar-default .dropdown-menu.notify-drop {
+        min-width: 330px;
+        background-color: #fff;
+        min-height: 360px;
+        max-height: 360px;
+    }
+    .navbar-default .dropdown-menu.notify-drop .notify-drop-title {
+        border-bottom: 1px solid #e2e2e2;
+        padding: 5px 15px 10px 15px;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content {
+        min-height: 280px;
+        max-height: 280px;
+        overflow-y: scroll;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content::-webkit-scrollbar-track
+    {
+        background-color: #F5F5F5;
+    }
+
+    .navbar-default .dropdown-menu.notify-drop .drop-content::-webkit-scrollbar
+    {
+        width: 8px;
+        background-color: #F5F5F5;
+    }
+
+    .navbar-default .dropdown-menu.notify-drop .drop-content::-webkit-scrollbar-thumb
+    {
+        background-color: #ccc;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li {
+        border-bottom: 1px solid #e2e2e2;
+        padding: 10px 0px 5px 0px;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li:nth-child(2n+0) {
+        background-color: #fafafa;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li:after {
+        content: "";
+        clear: both;
+        display: block;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li:hover {
+        background-color: #fcfcfc;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li:last-child {
+        border-bottom: none;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li .notify-img {
+        float: left;
+        display: inline-block;
+        width: 45px;
+        height: 45px;
+        margin: 0px 0px 8px 0px;
+    }
+    .navbar-default .dropdown-menu.notify-drop .allRead {
+        margin-right: 7px;
+    }
+    .navbar-default .dropdown-menu.notify-drop .rIcon {
+        float: right;
+        color: #999;
+    }
+    .navbar-default .dropdown-menu.notify-drop .rIcon:hover {
+        color: #333;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li a {
+        font-size: 12px;
+        font-weight: normal;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li {
+        font-weight: bold;
+        font-size: 11px;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li hr {
+        margin: 5px 0;
+        width: 70%;
+        border-color: #e2e2e2;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content .pd-l0 {
+        padding-left: 0;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li p {
+        font-size: 11px;
+        color: #666;
+        font-weight: normal;
+        margin: 3px 0;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li p.time {
+        font-size: 10px;
+        font-weight: 600;
+        top: -6px;
+        margin: 8px 0px 0px 0px;
+        padding: 0px 3px;
+        border: 1px solid #e2e2e2;
+        position: relative;
+        background-image: linear-gradient(#fff,#f2f2f2);
+        display: inline-block;
+        border-radius: 2px;
+        color: #B97745;
+    }
+    .navbar-default .dropdown-menu.notify-drop .drop-content > li p.time:hover {
+        background-image: linear-gradient(#fff,#fff);
+    }
+    .navbar-default .dropdown-menu.notify-drop .notify-drop-footer {
+        border-top: 1px solid #e2e2e2;
+        bottom: 0;
+        position: relative;
+        padding: 2px 15px;
+    }
+    .navbar-default .dropdown-menu.notify-drop .notify-drop-footer a {
+        color: #777;
+        text-decoration: none;
+    }
+    .navbar-default .dropdown-menu.notify-drop .notify-drop-footer a:hover {
+        color: #333;
+    }
+</style>
