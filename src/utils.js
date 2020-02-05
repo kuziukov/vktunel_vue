@@ -10,7 +10,7 @@ export function make_notification_titles (notification) {
             result_text = `Альбом <a href="/tasks">${notification['parent']['task']['album_name']}</a> загружен`;
             break;
         case 'PlanChanged':
-            result_text = `Тариф изменен на <b>${notification['parent']['subscription']['plan']['title']}</b>`;
+            result_text = `Тариф был изменен на <b>${notification['parent']['subscription']['plan']['title']}</b>`;
     }
     return result_text
 }

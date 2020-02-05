@@ -28,7 +28,7 @@
                       <div class="drop-content">
                           <li v-bind:key="notification.id" v-for="notification in notifications">
                               <div class="media">
-                                  <img class="col-md-3 col-sm-3 col-xs-3 rounded-circle" src="http://placehold.it/45x45" alt="Generic placeholder image">
+                                  <img class="col-md-3 col-sm-3 col-xs-3" :src="`/icons/${notification.type}.png`" alt="Generic placeholder image">
                                   <div class="media-body">
                                       <p class="mt-0" v-html="notification_title(notification)"></p>
                                   </div>
