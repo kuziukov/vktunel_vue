@@ -42,23 +42,36 @@
             search (e) {
                 this.$store.dispatch('SEARCH', { "link": this.query })
                     .then(resp => {
-                        if (resp.data.result.type === 'user'){
-                            this.$router.push({ name: 'Albums', params: { cummunity_id: `${resp.data.result.object_id}`}})
-                        }
-                        else if (resp.data.result.type === 'group'){
-                            this.$router.push({ name: 'Albums', params: { cummunity_id: `-${resp.data.result.object_id}` } })
+                        switch (resp.data.result.type) {
+                            case 'user':
+                                this.$router.push(
+                                    {
+                                        name: 'Albums',
+                                        params: {
+                                            cummunity_id: `${resp.data.result.object_id}`
+                                        }
+                                    }
+                                );
+                                break;
+                            case 'group':
+                                this.$router.push(
+                                    {
+                                        name: 'Albums',
+                                        params: {
+                                            cummunity_id: `-${resp.data.result.object_id}`
+                                        }
+                                    }
+                                );
                         }
                     }).catch(err => {
-
                         this.$notify({
                             group: 'foo',
-                            title: 'Произошла ошибка',
+                            title: 'Загрузка альбома по ссылке',
                             type: 'warning',
                             text: 'Мы не смогли распознать вашу ссылку, попробуйте еще раз'
                         });
 
                     });
-
                 e.preventDefault();
             }
         },

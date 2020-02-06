@@ -20,7 +20,7 @@
                   <ul class="dropdown-menu notify-drop">
                       <div class="notify-drop-title">
                           <div class="row">
-                              <div class="col-md-6 col-sm-6 col-xs-6">Недавние (<b>2</b>)</div>
+                              <div class="col-md-6 col-sm-6 col-xs-6">Ваша активность </div>
                               <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="#" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="все прочитанные"><i class="fa fa-dot-circle-o"></i></a></div>
                           </div>
                       </div>
@@ -120,22 +120,6 @@
                 }
             }
         },
-        async created(){
-            if(this.isAuthenticated){
-                let requestPermission = await Notification.requestPermission();
-
-                if(requestPermission === 'denied'){
-                    console.log('Permission wasn\'t granted. Allow a retry.');
-                    return;
-                }
-
-                if(requestPermission === 'default'){
-                    console.log('The permission request was dismissed.');
-                    return;
-                }
-                this.subscribe();
-            }
-        },
         methods: {
             subscribe: async function () {
                 let token = await askForPermissioToReceiveNotifications();
@@ -162,12 +146,12 @@
                             return y.created_at - x.created_at;
                         });
                     }
-                }).catch(() => {
+                }).catch((err) => {
                     this.$notify({
                         group: 'foo',
-                        title: 'Произошла ошибка',
-                        type: 'warning',
-                        text: 'Извините, нам не удалось загрузить ваш альбом, попробуйте снова'
+                        title: 'Ваша Активность',
+                        type: 'danger',
+                        text: 'Произошла неизвестная ошибка, попробуйсте позднее'
                     });
                 })
             },
@@ -186,10 +170,26 @@
             if(this.$store.getters.isAuthenticated){
                 this.$store.dispatch('GET_PROFILE')
                     .then().catch().finally(() => {
-                        this.notifications = this.$store.getters.listOfNotifications['items']
+                    this.notifications = this.$store.getters.listOfNotifications['items']
                 });
             }
         },
+        async created(){
+            if(this.isAuthenticated){
+                let requestPermission = await Notification.requestPermission();
+
+                if(requestPermission === 'denied'){
+                    console.log('Permission wasn\'t granted. Allow a retry.');
+                    return;
+                }
+
+                if(requestPermission === 'default'){
+                    console.log('The permission request was dismissed.');
+                    return;
+                }
+                this.subscribe();
+            }
+        }
     }
 </script>
 

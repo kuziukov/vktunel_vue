@@ -61,7 +61,19 @@
                 return make_notification_titles(notification)
             },
             notification_hide(id){
-
+                store.dispatch('notification_delete', id)
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] === 200){
+                            this.$notify({
+                                group: 'foo', title: 'Страница Уведомлений',
+                                type: 'success', text: 'Уведомление было успешно скрыто, больше вы его не увидите'
+                            });
+                            this.setData(null, this.listOfNotifications['items'])
+                        }
+                    })
+                    .catch(err => {
+                        this.setData(err, null)
+                    })
             },
             setData (err, notifications) {
                 if (err) {

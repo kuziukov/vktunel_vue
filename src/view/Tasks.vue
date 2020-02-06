@@ -12,21 +12,24 @@
                 У вас еще нет ни одной поставленной задачи.
             </div>
 
+            <div class="progress" style="height: 1px;">
+                <div class="progress-bar" role="progressbar" style="width: 88%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
             <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="tasks.length > 0">
                 <h6 class="border-bottom border-gray pb-2 mb-0">Список поставленных вами задач</h6>
 
                     <div class="media text-muted pt-3" v-bind:key="task.id" v-for="task in tasks">
-                        <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#2f91fa"/>
+                        <svg class="bd-placeholder-img mr-2 rounded" width="35" height="35" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+                            <image :href="`${Object.values(task.archive).length > 0 ? '/icons/ArchiveCompleted.png' : '/icons/ArchiveWaiting.png'}`" height="35" width="35"/>
                         </svg>
-                      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                          <div class="d-flex justify-content-between align-items-center w-100">
-                              <strong class="text-gray-dark">{{task.album_name}}</strong>
-                              <a href="#" @click="download(task.id)">{{Object.values(task.archive).length > 0 ? 'Скачать (' + convertBytes(task.archive.length) + ')' : ''}}</a>
-                          </div>
-                          <span class="d-block" v-html="`Статус задачи ${Object.values(task.archive).length > 0 ? `<i class='fa fa-check'> (выполнено)</i>` : `<i class='fa fa-clock-o'> (выполняется)</i>`}`"> </span>
-                      </div>
+                        <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <strong class="text-gray-dark">{{task.album_name}}</strong>
+                                <a href="#" @click="download(task.id)">{{Object.values(task.archive).length > 0 ? 'Скачать (' + convertBytes(task.archive.length) + ')' : ''}}</a>
+                            </div>
+                            <span class="d-block" v-html="`Статус задачи ${Object.values(task.archive).length > 0 ? `<i class='fa fa-check'> (выполнено)</i>` : `<i class='fa fa-clock-o'> (выполняется)</i>`}`"> </span>
+                        </div>
                     </div>
 
             </div>
