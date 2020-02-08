@@ -7,14 +7,14 @@
 
         <main role="main" class="container">
 
-            <div class="alert alert-info text-center" role="alert" v-if="notifications.length < 1">
+            <div class="alert alert-info text-center" role="alert" v-if="listOfNotifications.length < 1">
                 У вас еще нет ни одного уведомления.
             </div>
 
-            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="notifications.length > 0">
+            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="listOfNotifications.length > 0">
                 <h6 class="border-bottom border-gray pb-2 mb-0">Список уведомлений</h6>
 
-                <div class="media text-muted pt-3" v-bind:key="notification.id" v-for="notification in notifications">
+                <div class="media text-muted pt-3" v-bind:key="notification.id" v-for="notification in listOfNotifications">
                     <svg class="bd-placeholder-img mr-3 rounded" width="35" height="35" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
                         <image :href="`/icons/${notification.type}.png`" height="35" width="35"/>
                     </svg>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
     import store from "../store";
     import { make_notification_titles } from "../utils";
     import { formatDate } from "../utils";
@@ -54,7 +55,7 @@
             }
         },
         computed: {
-            listOfNotifications: function(){ return this.$store.getters.listOfNotifications},
+            ...mapGetters(['listOfNotifications']),
         },
         methods: {
             notification_title(notification){
@@ -68,7 +69,7 @@
                                 group: 'foo', title: 'Страница Уведомлений',
                                 type: 'success', text: 'Уведомление было успешно скрыто, больше вы его не увидите'
                             });
-                            this.setData(null, this.listOfNotifications['items'])
+                            this.setData(null, this.listOfNotifications)
                         }
                     })
                     .catch(err => {
@@ -84,7 +85,7 @@
             },
         },
         beforeRouteEnter(to, from, next){
-            next(vm => vm.setData(null, vm.$store.getters.listOfNotifications['items']))
+            next(vm => vm.setData(null, vm.$store.getters.listOfNotifications))
         },
         created() {
             store.dispatch('notifications')

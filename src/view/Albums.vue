@@ -60,8 +60,6 @@
                                 text: 'Альбом "'+ resp.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
                             });
                         }
-
-
                     }).catch(() => {
                         this.$notify({
                             group: 'foo',

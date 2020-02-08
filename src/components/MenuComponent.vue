@@ -21,18 +21,24 @@
                       <div class="notify-drop-title">
                           <div class="row">
                               <div class="col-md-6 col-sm-6 col-xs-6">Ваша активность </div>
-                              <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="#" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="все прочитанные"><i class="fa fa-dot-circle-o"></i></a></div>
+                              <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                  <a href="#" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="все прочитанные">
+                                      <i class="fa fa-dot-circle-o" @click="test_add_notify"></i>
+                                  </a>
+                              </div>
                           </div>
                       </div>
 
                       <div class="drop-content">
-                          <li v-bind:key="notification.id" v-for="notification in notifications">
+                          <li v-bind:key="notification.id" v-for="notification in listOfNotifications">
                               <div class="media">
                                   <img class="col-md-3 col-sm-3 col-xs-3" :src="`/icons/${notification.type}.png`" alt="Generic placeholder image">
                                   <div class="media-body">
                                       <p class="mt-0" v-html="notification_title(notification)"></p>
                                   </div>
-                                  <a href="#" class="rIcon mr-md-3 mt-md-2"><i class="fa fa-dot-circle-o"></i></a>
+                                  <a href="#" class="rIcon mr-md-3 mt-md-2">
+                                      <i class="fa fa-dot-circle-o"></i>
+                                  </a>
                               </div>
                           </li>
                       </div>
@@ -60,6 +66,7 @@
         });
     });
 
+    import { mapGetters } from 'vuex';
     import { askForPermissioToReceiveNotifications } from '../push-notification';
     import config from '../config';
     import { make_notification_titles } from '../utils';
@@ -67,14 +74,11 @@
     export default {
         name: 'MenuComponent',
         data(){
-            return{
-                notifications: []
-            }
+            return{}
         },
         computed : {
+            ...mapGetters(['listOfNotifications', 'isAuthenticated', 'profile']),
             systemToken : function(){ return this.$store.getters.token},
-            isAuthenticated : function(){ return this.$store.getters.isAuthenticated},
-            profile: function(){ return this.$store.getters.profile},
             menuItems : function() {
                 return this.isAuthenticated ?
                     [
@@ -139,14 +143,7 @@
                 }
             },
             getNotifications: async function (start, limit) {
-                this.$store.dispatch('notifications', { 'start': start, 'limit': limit }).then(resp => {
-                    if ('code' in resp.data && resp.data['code'] === 200){
-                        this.notifications = resp.data['result']['items'];
-                        this.notifications.sort(function(x, y){
-                            return y.created_at - x.created_at;
-                        });
-                    }
-                }).catch((err) => {
+                this.$store.dispatch('notifications', { 'start': start, 'limit': limit }).catch((err) => {
                     this.$notify({
                         group: 'foo',
                         title: 'Ваша Активность',
@@ -164,13 +161,38 @@
             logout: function () {
                 this.$store.commit('LOGOUT');
                 this.$router.push('/');
-            }
+            },
+            test_add_notify: function () {
+                let notification = {
+                    "created_at": Math.round(Math.random() * Math.pow(10, 6)),
+                    "id": Math.round(Math.random() * Math.pow(10, 6)),
+                    "parent": {
+                        "subscription": {
+                            "created_at": 1581001883.731,
+                            "expired_on": 1583593883.731,
+                            "paid": false,
+                            "plan": {
+                                "desc": "Неограниченные возможности использования сервиса",
+                                "id": "5e3c2abd15563f19d52cb887",
+                                "price": 200,
+                                "title": "Кофе с пироженкой"
+                            }
+                        }
+                    },
+                    "type": "PlanChanged",
+                    "user": {
+                        "id": "5d70ebbe2965a7a277af6cbd",
+                        "name": "Дмитрий Кузюков"
+                    }
+                };
+                this.$store.commit('add_notification', notification);
+                this.$store.commit('sort_notifications');
+            },
         },
         beforeCreate() {
             if(this.$store.getters.isAuthenticated){
                 this.$store.dispatch('GET_PROFILE')
                     .then().catch().finally(() => {
-                    this.notifications = this.$store.getters.listOfNotifications['items']
                 });
             }
         },
