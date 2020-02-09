@@ -44,10 +44,7 @@
     export default {
         name: 'Notifications',
         data(){
-            return{
-                notifications: [],
-                error:null,
-            }
+            return{}
         },
         filters: {
             formatDate: function (value) {
@@ -69,33 +66,23 @@
                                 group: 'foo', title: 'Страница Уведомлений',
                                 type: 'success', text: 'Уведомление было успешно скрыто, больше вы его не увидите'
                             });
-                            this.setData(null, this.listOfNotifications)
                         }
                     })
                     .catch(err => {
-                        this.setData(err, null)
+                        this.$notify({
+                            group: 'foo', title: 'Страница Уведомлений',
+                            type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                        });
                     })
             },
-            setData (err, notifications) {
-                if (err) {
-                    this.error = err.toString()
-                } else {
-                    this.notifications = notifications
-                }
-            },
-        },
-        beforeRouteEnter(to, from, next){
-            next(vm => vm.setData(null, vm.$store.getters.listOfNotifications))
         },
         created() {
             store.dispatch('notifications')
-                .then(resp => {
-                    if ('code' in resp.data && resp.data['code'] === 200){
-                        this.setData(null, resp.data.result.items)
-                    }
-                })
                 .catch(err => {
-                    this.setData(err, null)
+                    this.$notify({
+                        group: 'foo', title: 'Страница Уведомлений',
+                        type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                    });
                 })
         }
     }

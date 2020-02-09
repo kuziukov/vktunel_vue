@@ -12,14 +12,14 @@
                 <div class="progress-bar" role="progressbar" style="width: 88%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
 
-            <div class="alert alert-info text-center" role="alert" v-if="tasks.length < 1">
+            <div class="alert alert-info text-center" role="alert" v-if="listOfTasks.length < 1">
                 У вас еще нет ни одной поставленной задачи.
             </div>
 
-            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="tasks.length > 0">
+            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="listOfTasks.length > 0">
                 <h6 class="border-bottom border-gray pb-2 mb-0">Список поставленных вами задач</h6>
 
-                    <div class="media text-muted pt-3" v-bind:key="task.id" v-for="task in tasks">
+                    <div class="media text-muted pt-3" v-bind:key="task.id" v-for="task in listOfTasks">
                         <svg class="bd-placeholder-img mr-2 rounded" width="35" height="35" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
                             <image :href="`${Object.values(task.archive).length > 0 ? '/icons/ArchiveCompleted.png' : '/icons/ArchiveWaiting.png'}`" height="35" width="35"/>
                         </svg>
@@ -39,49 +39,36 @@
 </template>
 
 <script>
-import store from '../store'
-import { convertBytes } from '../utils'
+    import { mapGetters } from 'vuex';
+    import store from '../store'
+    import { convertBytes } from '../utils'
 
-export default {
-    name: 'Task',
-    data(){
-        return{
-            tasks: [],
-            error:null,
-        }
-    },
-    computed: {
-        listOfTasks: function(){ return this.$store.getters.listOfTasks},
-    },
-    methods: {
-        download: function(task_id){
-            window.open('https://api.wlusm.ru/files/'+task_id)
+    export default {
+        name: 'Task',
+        data(){
+            return{}
         },
-        setData (err, tasks) {
-            if (err) {
-                this.error = err.toString()
-            } else {
-                this.tasks = tasks
+        computed: {
+            ...mapGetters(['listOfTasks'])
+        },
+        methods: {
+            download: function(task_id){
+                window.open('https://api.wlusm.ru/files/'+task_id)
+            },
+            convertBytes: function (bytes) {
+                return convertBytes(bytes)
             }
         },
-        convertBytes: function (bytes) {
-            return convertBytes(bytes)
+        created() {
+            store.dispatch('tasks')
+                .catch(err => {
+                    this.$notify({
+                        group: 'foo', title: 'Список задач',
+                        type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                    });
+                })
         }
-    },
-    beforeRouteEnter(to, from, next){
-        next(vm => vm.setData(null, vm.$store.getters.listOfTasks['items']))
-    },
-    created() {
-        store.dispatch('TASKS')
-                .then(resp => {
-                    if ('code' in resp.data && resp.data['code'] === 200){
-                        this.setData(null, resp.data.result.items)
-                    }
-              }).catch(err => {
-                  this.setData(err, null)
-              })
     }
-}
 </script>
 
 <style scoped>

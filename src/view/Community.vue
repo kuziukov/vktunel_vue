@@ -49,7 +49,10 @@
         created: function () {
             store.dispatch('communities')
                   .catch(err => {
-                      this.setData(err, null)
+                    this.$notify({
+                      group: 'foo', title: 'Сообщества',
+                      type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                    });
                   })
         }
     }

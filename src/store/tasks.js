@@ -5,7 +5,7 @@ export default {
         tasks: JSON.parse(localStorage.getItem('tasks') || null) ,
     },
     mutations: {
-        SAVE_TASKS(state, tasks){
+        save_tasks(state, tasks){
             state.tasks = tasks;
             localStorage.setItem('tasks', JSON.stringify(tasks));
         },
@@ -27,13 +27,13 @@ export default {
                     })
             })
         },
-        TASKS({commit}){
+        tasks({commit}){
             return new Promise((resolve, reject) => {
                 api.get('/tasks')
                     .then(resp => {
-                        if ('code' in resp.data && resp.data['code'] == 200){
-                            let tasks = resp.data['result'];
-                            commit('SAVE_TASKS', tasks);
+                        if ('code' in resp.data && resp.data['code'] === 200){
+                            let tasks = resp.data['result']['items'];
+                            commit('save_tasks', tasks);
                             resolve(resp)
                         }
                         else{
