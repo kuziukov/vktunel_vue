@@ -17,7 +17,7 @@
       <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">Список доступных вам сообществ</h6>
 
-          <div class="media text-muted pt-3" v-bind:key="community.id" v-for="community in communities">
+          <div class="media text-muted pt-3" v-bind:key="community.id" v-for="community in listOfCommunities">
             <img :src="community.photo_50" alt="..." class="bd-placeholder-img mr-2 rounded" width="32" height="32">
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div class="d-flex justify-content-between align-items-center w-100">
@@ -34,41 +34,25 @@
 </template>
 
 <script>
+    import store from '../store'
+    import { mapGetters } from 'vuex'
 
-  import store from '../store'
-
-  export default {
-    name: 'Community',
-    data(){
-      return{
-        communities: [],
-        error:null,
-      }
-    },
-    methods: {
-      setData (err, communities) {
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.communities = communities
+    export default {
+        name: 'Community',
+        data(){
+            return{}
+        },
+        computed: {
+            ...mapGetters(['listOfCommunities'])
+        },
+        methods: {},
+        created: function () {
+            store.dispatch('communities')
+                  .catch(err => {
+                      this.setData(err, null)
+                  })
         }
-      }
-    },
-    beforeRouteEnter(to, from, next){
-        next(vm => vm.setData(null, vm.$store.getters.listOfCommunities['items']))
-    },
-    created: function () {
-        store.dispatch('COMMUNITIES')
-              .then(resp => {
-                if ('code' in resp.data && resp.data['code'] == 200){
-                  this.setData(null, resp.data.result.items)
-                }
-              })
-              .catch(err => {
-                  this.setData(err, null)
-              })
     }
-  }
 </script>
 
 <style scoped>

@@ -8,12 +8,12 @@
 
         <main role="main" class="container">
 
-            <div class="alert alert-info text-center" role="alert" v-if="tasks.length < 1">
-                У вас еще нет ни одной поставленной задачи.
-            </div>
-
             <div class="progress" style="height: 1px;">
                 <div class="progress-bar" role="progressbar" style="width: 88%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            <div class="alert alert-info text-center" role="alert" v-if="tasks.length < 1">
+                У вас еще нет ни одной поставленной задачи.
             </div>
 
             <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="tasks.length > 0">

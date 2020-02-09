@@ -28,12 +28,12 @@ export default {
                     })
             })
         },
-        COMMUNITIES({commit}){
+        communities({commit}){
             return new Promise((resolve, reject) => {
                 api.get('/communities')
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
-                            let data = resp.data['result'];
+                            let data = resp.data['result']['items'];
                             commit('SAVE_COMMUNITIES', data);
                             resolve(resp)
                         }
