@@ -8,8 +8,8 @@
 
         <main role="main" class="container">
 
-            <div class="progress" style="height: 1px;">
-                <div class="progress-bar" role="progressbar" style="width: 88%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress" style="height: 1px;" v-if="limits">
+                <div class="progress-bar" role="progressbar" :style="`width: ${ (listOfTasks.length * 100 ) / limits.numberOfAlbums }%;`" aria-valuenow="25" aria-valuemin="0" :aria-valuemax="`${limits.numberOfAlbums}`"></div>
             </div>
 
             <div class="alert alert-info text-center" role="alert" v-if="listOfTasks.length < 1">
@@ -49,7 +49,7 @@
             return{}
         },
         computed: {
-            ...mapGetters(['listOfTasks'])
+            ...mapGetters(['listOfTasks', 'limits'])
         },
         methods: {
             download: function(task_id){

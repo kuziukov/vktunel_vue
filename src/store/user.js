@@ -4,7 +4,7 @@ import api from '../api'
 export default {
     state: {
         token: localStorage.getItem('token') || '',
-        user: {},
+        user: localStorage.getItem('user') || {},
     },
     mutations: {
         SET_TOKEN(state, token){
@@ -18,7 +18,8 @@ export default {
             delete api.defaults.headers.common['Authorization'];
         },
         USER_UPDATED(state, user){
-            state.user = user
+            state.user = user;
+            localStorage.setItem('user', JSON.stringify(user));
         },
     },
     actions: {
@@ -65,5 +66,9 @@ export default {
     getters: {
         isAuthenticated: state => !!state.token,
         profile: state => state.user,
+        plan: state => state.user.subscription,
+        limits: state => {
+            return state.user.subscription ? state.user.subscription.plan.limits : null
+        },
     }
 }
