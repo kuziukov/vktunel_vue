@@ -9,17 +9,17 @@
         <main role="main" class="container">
 
             <div class="progress" style="height: 1px;" v-if="limits">
-                <div class="progress-bar" role="progressbar" :style="`width: ${ (listOfTasks.length * 100 ) / limits.numberOfAlbums }%;`" aria-valuenow="25" aria-valuemin="0" :aria-valuemax="`${limits.numberOfAlbums}`"></div>
+                <div class="progress-bar" role="progressbar" :style="`width: ${ (getTasks.length * 100 ) / limits.numberOfAlbums }%;`" aria-valuenow="25" aria-valuemin="0" :aria-valuemax="`${limits.numberOfAlbums}`"></div>
             </div>
 
-            <div class="alert alert-info text-center" role="alert" v-if="listOfTasks.length < 1">
+            <div class="alert alert-info text-center" role="alert" v-if="getTasks.length < 1">
                 У вас еще нет ни одной поставленной задачи.
             </div>
 
-            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="listOfTasks.length > 0">
+            <div class="my-3 p-3 bg-white rounded shadow-sm" v-if="getTasks.length > 0">
                 <h6 class="border-bottom border-gray pb-2 mb-0">Список поставленных вами задач</h6>
 
-                    <div class="media text-muted pt-3" v-bind:key="task.id" v-for="task in listOfTasks">
+                    <div class="media text-muted pt-3" v-bind:key="task.id" v-for="task in getTasks">
                         <svg class="bd-placeholder-img mr-2 rounded" width="35" height="35" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
                             <image :href="`${Object.values(task.archive).length > 0 ? '/icons/ArchiveCompleted.png' : '/icons/ArchiveWaiting.png'}`" height="35" width="35"/>
                         </svg>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapMutations } from 'vuex';
     import store from '../store'
     import { convertBytes } from '../utils'
 
@@ -49,9 +49,10 @@
             return{}
         },
         computed: {
-            ...mapGetters(['listOfTasks', 'limits'])
+            ...mapGetters(['getTasks', 'limits'])
         },
         methods: {
+            ...mapMutations(['setTasks']),
             download: function(task_id){
                 window.open('https://api.wlusm.ru/files/'+task_id)
             },
@@ -61,6 +62,9 @@
         },
         created() {
             store.dispatch('tasks')
+                .then(response => {
+                    this.setTasks(response);
+                })
                 .catch(err => {
                     this.$notify({
                         group: 'foo', title: 'Список задач',

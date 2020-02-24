@@ -1,12 +1,17 @@
 <template>
     <div>
-      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
           <router-link :to="{ name: 'Index' }">
               <img src="/cloud_logo.svg" width="50" height="50">
           </router-link>
           <h5 class="my-0 mr-md-auto font-weight-normal">
               <router-link style="text-decoration: none !important; color: #343a40!important" :to="{ name: 'Index' }">
                   Wlusm
+              </router-link>
+              <router-link class="p-1" to="/support" v-if="isPaid !== true && isAuthenticated">
+                  <span class="badge badge-pill badge-warning" style="font-size: 0.7rem">
+                      <em>Не активен</em>
+                  </span>
               </router-link>
           </h5>
           <nav class="my-2 my-md-0 mr-md-3">
@@ -23,14 +28,14 @@
                               <div class="col-md-6 col-sm-6 col-xs-6">Ваша активность </div>
                               <div class="col-md-6 col-sm-6 col-xs-6 text-right">
                                   <a href="#" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="все прочитанные">
-                                      <i class="fa fa-dot-circle-o" @click="test_add_notify"></i>
+                                      <i class="fa fa-dot-circle-o"></i>
                                   </a>
                               </div>
                           </div>
                       </div>
 
                       <div class="drop-content">
-                          <li v-bind:key="notification.id" v-for="notification in listOfNotifications">
+                          <li v-bind:key="notification.id" v-for="notification in getActivities">
                               <div class="media">
                                   <img class="col-md-3 col-sm-3 col-xs-3" :src="`/icons/${notification.type}.png`" alt="Generic placeholder image">
                                   <div class="media-body">
@@ -50,7 +55,7 @@
               </li>
           </ul>
           <button class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</button>
-      </div>
+        </div>
     </div>
 
 </template>
@@ -66,7 +71,7 @@
         });
     });
 
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapMutations } from 'vuex';
     import { askForPermissioToReceiveNotifications } from '../push-notification';
     import config from '../config';
     import { make_notification_titles } from '../utils';
@@ -77,7 +82,7 @@
             return{}
         },
         computed : {
-            ...mapGetters(['listOfNotifications', 'isAuthenticated', 'profile']),
+            ...mapGetters(['getActivities', 'isAuthenticated', 'profile', 'isPaid']),
             systemToken : function(){ return this.$store.getters.token},
             menuItems : function() {
                 return this.isAuthenticated ?
@@ -118,13 +123,14 @@
         watch: {
             isAuthenticated: function (next, prev) {
                 if(next){
-                    this.$store.dispatch('GET_PROFILE')
+                    this.$store.dispatch('getProfile')
                         .then().catch().finally(() => {
                     });
                 }
             }
         },
         methods: {
+            ...mapMutations(['setActivities']),
             subscribe: async function () {
                 let token = await askForPermissioToReceiveNotifications();
                 if (token){
@@ -143,7 +149,9 @@
                 }
             },
             getNotifications: async function (start, limit) {
-                this.$store.dispatch('notifications', { 'start': start, 'limit': limit }).catch((err) => {
+                this.$store.dispatch('notifications', { 'start': start, 'limit': limit }).then(response => {
+                    this.setActivities(response)
+                }).catch((err) => {
                     this.$notify({
                         group: 'foo',
                         title: 'Ваша Активность',
@@ -162,36 +170,10 @@
                 this.$store.commit('LOGOUT');
                 this.$router.push('/');
             },
-            test_add_notify: function () {
-                let notification = {
-                    "created_at": Math.round(Math.random() * Math.pow(10, 6)),
-                    "id": Math.round(Math.random() * Math.pow(10, 6)),
-                    "parent": {
-                        "subscription": {
-                            "created_at": 1581001883.731,
-                            "expired_on": 1583593883.731,
-                            "paid": false,
-                            "plan": {
-                                "desc": "Неограниченные возможности использования сервиса",
-                                "id": "5e3c2abd15563f19d52cb887",
-                                "price": 200,
-                                "title": "Кофе с пироженкой"
-                            }
-                        }
-                    },
-                    "type": "PlanChanged",
-                    "user": {
-                        "id": "5d70ebbe2965a7a277af6cbd",
-                        "name": "Дмитрий Кузюков"
-                    }
-                };
-                this.$store.commit('add_notification', notification);
-                this.$store.commit('sort_notifications');
-            },
         },
         beforeCreate() {
             if(this.$store.getters.isAuthenticated){
-                this.$store.dispatch('GET_PROFILE')
+                this.$store.dispatch('getProfile')
                     .then().catch().finally(() => {
                 });
             }

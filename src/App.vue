@@ -3,8 +3,10 @@
     <MenuComponent></MenuComponent>
     <notifications group = "foo" position="top right" width="30%" >
       <template slot="body" slot-scope="props">
-
         <div :class="'alert alert-' + props.item.type" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
           <div class="title">{{props.item.title}}</div>
           <div class="body" v-html="props.item.text"></div>
         </div>
@@ -48,6 +50,10 @@
     .notifications .body {
       font-size: 15px;
       font-weight: lighter;
+    }
+    .notifications .close{
+      font-size: 1.2rem;
+      color: #a6a6a6;
     }
   }
 

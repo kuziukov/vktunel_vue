@@ -47,7 +47,7 @@ export default {
                 resolve()
             })
         },
-        GET_PROFILE({commit}){
+        getProfile({commit}){
             return new Promise((resolve, reject) => {
                 api.get('/profile')
                     .then(resp => {
@@ -62,6 +62,44 @@ export default {
                     })
             })
         },
+        getPlans({commit}){
+            return new Promise((resolve, reject) => {
+                api.get('/plans')
+                    .then(resp => {
+                        resolve(resp);
+                    })
+                    .catch(() => {
+                        reject();
+                    })
+            })
+        },
+        choosePlan({commit}, plan_id){
+            return new Promise((resolve, reject) => {
+                api.post(`/plan/${plan_id}`).then(resp => {
+                    resolve(resp)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        payPlan({commit}, plan_id){
+            return new Promise((resolve, reject) => {
+                api.put(`/plan/${plan_id}`).then(resp => {
+                    resolve(resp)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        deleteSubscription({commit}){
+            return new Promise((resolve, reject) => {
+                api.delete(`/subscription`).then(resp => {
+                    resolve(resp)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        }
     },
     getters: {
         isAuthenticated: state => !!state.token,
@@ -69,6 +107,12 @@ export default {
         plan: state => state.user.subscription,
         limits: state => {
             return state.user.subscription ? state.user.subscription.plan.limits : null
+        },
+        subscription: state => {
+            return state.user.subscription ? state.user.subscription.plan : null
+        },
+        isPaid: state => {
+            return state.user.subscription ? state.user.subscription.paid : null
         },
     }
 }

@@ -51,8 +51,9 @@
         methods: {
             createTask: function (album_id) {
                 let community_id = this.$route.params.cummunity_id;
-                this.$store.dispatch('CREATETASK', { 'subject_id': community_id, 'album_id': album_id }).then(resp => {
-                        if ('code' in resp.data && resp.data['code'] === 200){
+                this.$store.dispatch('createTask', { 'subject_id': community_id, 'album_id': album_id })
+                    .then(resp => {
+                        if (resp.data['code'] === 200){
                             this.$notify({
                                 group: 'foo',
                                 title: 'Задача добавлена в загрузку',
@@ -60,7 +61,15 @@
                                 text: 'Альбом "'+ resp.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
                             });
                         }
-                    }).catch(() => {
+                        if (resp.data['code'] === 410){
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Тарифный план',
+                                type: 'danger',
+                                text: `Тарифный план <u><strong>не активен</strong></u>, выберите тарифный план для продолжения работы`
+                            });
+                        }
+                    }).catch((error) => {
                         this.$notify({
                             group: 'foo',
                             title: 'Произошла ошибка',

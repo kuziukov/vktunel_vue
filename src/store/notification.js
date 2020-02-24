@@ -1,34 +1,41 @@
 import api from "../api";
+import { initialization } from '../utils'
 
 export default {
     state: {
         notification: localStorage.getItem('notification') || '',
         notifications: JSON.parse(localStorage.getItem('notifications') || null),
+        activities: JSON.parse(localStorage.getItem('activities') || null),
     },
     mutations: {
-        add_notification(state, notification){
-            state.notifications.push(notification);
+        setActivities(state, payload){
+            state.activities = payload;
+            localStorage.setItem('activities', JSON.stringify(state.activities));
         },
-        remove_notification(state, notification_id){
-            state.notifications = state.notifications.filter(function(value){
-                return value['id'] !== notification_id;
+        setNotifications(state, payload){
+            state.notifications = payload;
+            localStorage.setItem('notifications', JSON.stringify(state.notifications));
+        },
+        removeActivities(state, id){
+            state.activities = state.activities.filter(function(value){
+                return value['id'] !== id;
             });
         },
-        save_notifications(state, notifications){
-            state.notifications = notifications;
-            localStorage.setItem('notifications', JSON.stringify(notifications));
+        removeNotification(state, id){
+            state.notifications = state.notifications.filter(function(value){
+                return value['id'] !== id;
+            });
+        },
+        add_notification(state, notification){
+            if (!state.notifications.some(notify => notify.id === notification.id)){
+                state.notifications.push(notification)
+            }
+        },
+        add_notifications(state, notifications){
+            state.notifications = state.notifications.map(obj => notifications.find(o => o.id === obj.id) || obj);
         },
         sort_notifications(state){
-            let sortKey = 'created_at';
-            state.notifications = state.notifications.sort((a, b) => {
-                let compare = 0;
-                if (a[sortKey] < b[sortKey]) {
-                    compare = 1;
-                } else if (b[sortKey] < a[sortKey]) {
-                    compare = -1;
-                }
-                return compare;
-            });
+            state.notifications = state.notifications.sort((a,b) => (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0));
         },
         notification_token(state, token){
             state.notification = token;
@@ -59,9 +66,7 @@ export default {
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             let data = resp.data['result']['items'];
-                            commit('save_notifications', data);
-                            commit('sort_notifications');
-                            resolve(resp)
+                            resolve(data)
                         }
                         else{
                             reject();
@@ -72,13 +77,13 @@ export default {
                     })
             })
         },
-        notification_delete({commit}, notification_id){
+        deleteNotification({commit}, notification_id){
             return new Promise((resolve, reject) => {
                 api.delete(`/notification/${notification_id}`)
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
-                            commit('remove_notification', notification_id);
-                            resolve(resp)
+                            let data = resp.data['result'];
+                            resolve(data)
                         }
                         else{
                             reject();
@@ -93,6 +98,7 @@ export default {
     getters: {
         isSubscribed: state => !!state.notification,
         token: state => state.notification,
-        listOfNotifications: state => state.notifications,
+        getNotifications: state => state.notifications,
+        getActivities: state => state.activities,
     }
 }

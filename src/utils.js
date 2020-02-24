@@ -11,6 +11,10 @@ export function make_notification_titles (notification) {
             break;
         case 'PlanChanged':
             result_text = `Тариф был изменен на <b>${notification['parent']['subscription']['plan']['title']}</b>`;
+            break;
+        case 'PlanDeleted':
+            result_text = `Тариф <b>${notification['parent']['subscription']['plan']['title']}</b> был отключен`;
+            break;
     }
     return result_text
 }
@@ -30,4 +34,19 @@ export function convertBytes(size_bytes) {
     let number = Math.round((size_bytes / Math.pow(1000, log_of_bytes)) * 100) / 100;
 
     return `${number} ${names_of_size[log_of_bytes]}`;
+}
+
+export function initialization(data) {
+    let val;
+    try {
+        val = JSON.parse(data);
+    }
+    catch (e) {
+        val = [];
+    }
+    return val;
+}
+
+export function priceFiller(value) {
+    return value >= 10000 ? 'Неограниченно фотографий' : `${value} фотографий`
 }

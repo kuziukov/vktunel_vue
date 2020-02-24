@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const api = axios.create({
     baseURL: 'http://localhost:5000/v1.0',
-    timeout: 30000,
+    timeout: 5000,
     headers: {'Authorization': localStorage.getItem('token')},
     showProgressBar: false,
 });

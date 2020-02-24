@@ -5,22 +5,17 @@ export default {
         tasks: JSON.parse(localStorage.getItem('tasks') || null) ,
     },
     mutations: {
-        save_tasks(state, tasks){
+        setTasks(state, tasks){
             state.tasks = tasks;
             localStorage.setItem('tasks', JSON.stringify(tasks));
         },
     },
     actions: {
-        CREATETASK({commit}, payload){
+        createTask({commit}, payload){
             return new Promise((resolve, reject) => {
                 api.post('/tasks', payload)
                     .then(resp => {
-                        if ('code' in resp.data && resp.data['code'] === 200){
-                            resolve(resp)
-                        }
-                        else{
-                            reject();
-                        }
+                        resolve(resp.response)
                     })
                     .catch(err => {
                         reject(err)
@@ -33,8 +28,8 @@ export default {
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
                             let tasks = resp.data['result']['items'];
-                            commit('save_tasks', tasks);
-                            resolve(resp)
+                            commit('setTasks', resp.data['result']['items']);
+                            resolve(tasks)
                         }
                         else{
                             reject();
@@ -47,6 +42,6 @@ export default {
         },
     },
     getters: {
-        listOfTasks: state => state.tasks,
+        getTasks: state => state.tasks,
     }
 }
