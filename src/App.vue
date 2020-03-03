@@ -64,6 +64,7 @@
 
 import MenuComponent from './components/MenuComponent.vue'
 import store from "./store";
+import { WEBSOCKETURL } from './config'
 
 export default {
   name: 'app',
@@ -78,7 +79,7 @@ export default {
       stream_connect(){
           if (this.isAuthenticated){
               store.dispatch('stream').then(respose => {
-                  this.$connect(`ws://localhost:8083/${respose.key}`);
+                  this.$connect(`${WEBSOCKETURL}${respose.key}`);
               }).catch(err => {
                   console.log(err);
               });

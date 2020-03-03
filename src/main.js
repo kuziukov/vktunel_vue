@@ -3,6 +3,7 @@ import Notifications from 'vue-notification'
 import VueNativeSock from 'vue-native-websocket'
 import VueYandexMetrika from 'vue-yandex-metrika'
 import { initializeFirebase } from './push-notification';
+import { WEBSOCKETURL } from './config'
 
 import App from './App.vue'
 import router from './router'
@@ -21,7 +22,7 @@ Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-Vue.use(VueNativeSock, 'ws://localhost:8083/', {
+Vue.use(VueNativeSock, WEBSOCKETURL, {
     connectManually: true,
     store: store,
     format: 'json',
