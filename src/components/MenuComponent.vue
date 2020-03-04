@@ -73,7 +73,7 @@
 
     import { mapGetters, mapMutations } from 'vuex';
     import { askForPermissioToReceiveNotifications } from '../push-notification';
-    import config from '../config';
+    import { oauthAuthorizationLink } from '../utils'
     import { make_notification_titles } from '../utils';
 
     export default {
@@ -164,7 +164,7 @@
                 return make_notification_titles(notification)
             },
             login: function () {
-                window.location = config.authorizeLocation;
+                window.location = oauthAuthorizationLink()
             },
             logout: function () {
                 this.$store.commit('LOGOUT');

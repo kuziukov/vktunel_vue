@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { APIURL } from './config'
+import { API } from './config'
 
 const api = axios.create({
-    baseURL: APIURL,
+    baseURL: API,
     timeout: 5000,
     headers: {'Authorization': localStorage.getItem('token')},
     showProgressBar: false,

@@ -50,3 +50,21 @@ export function initialization(data) {
 export function priceFiller(value) {
     return value >= 10000 ? 'Неограниченно фотографий' : `${value} фотографий`
 }
+
+export function oauthAuthorizationLink() {
+
+    let client_id = '7029024',
+        display = 'page',
+        redirect_uri = 'https://wlusm.ru/callback',
+        response_type = 'code',
+        scope = 'friends,photos,email,groups,offline',
+        v = '5.95';
+
+    return `https://oauth.vk.com/authorize`
+                        + `?client_id=${ client_id }`
+                        + `&display=${ display }`
+                        + `&redirect_uri=${ redirect_uri }`
+                        + `&scope=${ scope }`
+                        + `&response_type=${ response_type }`
+                        + `&v=${ v }`
+}

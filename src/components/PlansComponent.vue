@@ -45,13 +45,13 @@
 </template>
 
 <script>
-  import config from '../config';
+  import { oauthAuthorizationLink } from '../utils'
   import { mapGetters } from 'vuex';
   export default {
     name: 'Plans',
     methods: {
         login: function () {
-          window.location = config.authorizeLocation;
+          window.location = oauthAuthorizationLink()
         }
     },
     computed: {

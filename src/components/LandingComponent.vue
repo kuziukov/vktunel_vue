@@ -49,12 +49,12 @@
 </template>
 
 <script>
-    import config from '../config';
+    import { oauthAuthorizationLink } from '../utils'
     export default {
         name: 'Landing',
         methods: {
             login: function () {
-                window.location = config.authorizeLocation;
+                window.location = oauthAuthorizationLink()
                 },
         },
     }
