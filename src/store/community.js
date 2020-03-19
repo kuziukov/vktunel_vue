@@ -2,8 +2,13 @@ import api from '../api'
 
 export default {
     state: {
+        communities: JSON.parse(localStorage.getItem('communities') || null)
     },
     mutations: {
+        SAVE_COMMUNITIES(state, communities){
+            state.communities = communities;
+            localStorage.setItem('communities', JSON.stringify(communities));
+        },
     },
     actions: {
         COMMUNITY_TITLE({commit}, community_id){
@@ -23,11 +28,13 @@ export default {
                     })
             })
         },
-        COMMUNITIES({commit}){
+        communities({commit}){
             return new Promise((resolve, reject) => {
                 api.get('/communities')
                     .then(resp => {
                         if ('code' in resp.data && resp.data['code'] === 200){
+                            let data = resp.data['result']['items'];
+                            commit('SAVE_COMMUNITIES', data);
                             resolve(resp)
                         }
                         else{
@@ -42,5 +49,6 @@ export default {
         },
     },
     getters: {
+        listOfCommunities: state => state.communities,
     }
 }

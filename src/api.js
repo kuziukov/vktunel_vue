@@ -1,26 +1,31 @@
 import axios from 'axios'
+import { API } from './config'
 
-// create a new axios api
 const api = axios.create({
-    baseURL: 'http://localhost:5000/v1.0',
-    timeout: 10000,
-    headers: {'Authorization': localStorage.getItem('token')}
+    baseURL: API,
+    timeout: 5000,
+    headers: {'Authorization': localStorage.getItem('token')},
+    showProgressBar: false,
 });
 
-// before a request is made start the nprogress
+
 api.interceptors.request.use(config => {
-    NProgress.start();
+    let token = localStorage.getItem('token');
+    config.headers.Authorization = token;
+    config.headers.common['Authorization'] = token;
+    if ((config.showProgressBar === undefined) || (config.showProgressBar === true)){
+        NProgress.start();
+    }
     return config
 });
 
-// before a response is returned stop nprogress
 api.interceptors.response.use(response => {
-    NProgress.done();
+        NProgress.done();
         return response
     },
     error => {
         NProgress.done();
         return error
-    });
+});
 
 export default api

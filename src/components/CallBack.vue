@@ -1,6 +1,5 @@
 <script>
     import store from '../store'
-
     export default {
         name: 'CallBack',
         beforeRouteEnter(to, from, next){
@@ -8,8 +7,10 @@
                 'code': to.query.code
             };
             store.dispatch('SIGNUP', code)
-                .then().catch().finally(() => {
-                next('/')
+                .then()
+                .catch()
+                .finally(() => {
+                    next('/');
             });
         },
 

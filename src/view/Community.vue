@@ -2,7 +2,7 @@
 <div>
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
       <h1 class="display-4">Список сообществ</h1>
-      <p class="lead">Посмотрите ниже и вы увидите список доступных вам сообществ. Нажмите на кнопку «Список альбомов», чтобы перейти к списку альбомов сообщества. Всегда рад помочь :)</p>
+      <p class="lead">Посмотрите ниже и вы увидите список доступных вам сообществ. Нажмите на кнопку «Список альбомов», чтобы перейти к списку альбомов сообщества. </p>
     </div>
 
     <main role="main" class="container">
@@ -17,20 +17,16 @@
       <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">Список доступных вам сообществ</h6>
 
-          <div class="media text-muted pt-3" v-bind:key="community.id" v-for="community in communities">
+          <div class="media text-muted pt-3" v-bind:key="community.id" v-for="community in listOfCommunities">
             <img :src="community.photo_50" alt="..." class="bd-placeholder-img mr-2 rounded" width="32" height="32">
             <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <div class="d-flex justify-content-between align-items-center w-100">
                 <strong class="text-gray-dark">{{community.name}}</strong>
-                <router-link :to="{ name: 'Albums', params: { cummunity_id: community.id } }">Список альбомов</router-link>
+                <router-link :to="{ name: 'Albums', params: { cummunity_id: `-${community.id}` } }">Список альбомов</router-link>
               </div>
               <span class="d-block">Описание сообщества, возможно количество альбомов и еще что-то</span>
             </div>
           </div>
-
-        <small class="d-block text-right mt-3">
-          <a href="#">All suggestions</a>
-        </small>
       </div>
 
     </main>
@@ -38,41 +34,28 @@
 </template>
 
 <script>
+    import store from '../store'
+    import { mapGetters } from 'vuex'
 
-  import store from '../store'
-
-  export default {
-    name: 'Community',
-    data(){
-      return{
-        communities: [],
-        error:null,
-      }
-    },
-    methods: {
-      setData (err, communities) {
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.communities = communities
+    export default {
+        name: 'Community',
+        data(){
+            return{}
+        },
+        computed: {
+            ...mapGetters(['listOfCommunities'])
+        },
+        methods: {},
+        created: function () {
+            store.dispatch('communities')
+                  .catch(err => {
+                    this.$notify({
+                      group: 'foo', title: 'Сообщества',
+                      type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                    });
+                  })
         }
-      }
-    },
-    beforeRouteEnter(to, from, next){
-      store.dispatch('COMMUNITIES')
-              .then(resp => {
-                if ('code' in resp.data && resp.data['code'] == 200){
-                  next(vm => vm.setData(null, resp.data.result.items))
-                }
-              })
-              .catch(err => {
-                next(vm => vm.setData(err, null))
-              })
-    },
-    mounted: function () {
-
     }
-  }
 </script>
 
 <style scoped>

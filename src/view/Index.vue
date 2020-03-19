@@ -4,14 +4,14 @@
 </template>
 
 <script>
-    import Landing from '../components/LandingComponent.vue'
     import Main from '../components/MainComponent.vue'
+    import Landing from '../components/LandingComponent'
 
     export default {
         name: 'Index',
         components: {
-            Landing,
-            Main
+            Main,
+            Landing
         },
         computed : {
             isAuthenticated : function(){ return this.$store.getters.isAuthenticated},

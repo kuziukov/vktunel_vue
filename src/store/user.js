@@ -1,9 +1,10 @@
+import Vue from 'vue'
 import api from '../api'
 
 export default {
     state: {
         token: localStorage.getItem('token') || '',
-        user: {},
+        user: localStorage.getItem('user') || {},
     },
     mutations: {
         SET_TOKEN(state, token){
@@ -14,10 +15,11 @@ export default {
         LOGOUT(state){
             state.token = '';
             localStorage.removeItem('token');
-            delete api.defaults.headers.common['Authorization']
+            delete api.defaults.headers.common['Authorization'];
         },
         USER_UPDATED(state, user){
-            state.user = user
+            state.user = user;
+            localStorage.setItem('user', JSON.stringify(user));
         },
     },
     actions: {
@@ -44,10 +46,73 @@ export default {
                 commit('LOGOUT');
                 resolve()
             })
+        },
+        getProfile({commit}){
+            return new Promise((resolve, reject) => {
+                api.get('/profile')
+                    .then(resp => {
+                        if ('code' in resp.data && resp.data['code'] === 200){
+                            commit('USER_UPDATED', resp.data.result);
+                            resolve(resp);
+                        }
+                    })
+                    .catch(() => {
+                        commit('LOGOUT');
+                        reject();
+                    })
+            })
+        },
+        getPlans({commit}){
+            return new Promise((resolve, reject) => {
+                api.get('/plans')
+                    .then(resp => {
+                        resolve(resp);
+                    })
+                    .catch(() => {
+                        reject();
+                    })
+            })
+        },
+        choosePlan({commit}, plan_id){
+            return new Promise((resolve, reject) => {
+                api.post(`/plan/${plan_id}`).then(resp => {
+                    resolve(resp)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        payPlan({commit}, plan_id){
+            return new Promise((resolve, reject) => {
+                api.put(`/plan/${plan_id}`).then(resp => {
+                    resolve(resp)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        deleteSubscription({commit}){
+            return new Promise((resolve, reject) => {
+                api.delete(`/subscription`).then(resp => {
+                    resolve(resp)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
         }
     },
     getters: {
         isAuthenticated: state => !!state.token,
         profile: state => state.user,
+        plan: state => state.user.subscription,
+        limits: state => {
+            return state.user.subscription ? state.user.subscription.plan.limits : null
+        },
+        subscription: state => {
+            return state.user.subscription ? state.user.subscription.plan : null
+        },
+        isPaid: state => {
+            return state.user.subscription ? state.user.subscription.paid : null
+        },
     }
 }
