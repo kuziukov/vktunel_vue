@@ -61,18 +61,19 @@
                 return convertBytes(bytes)
             }
         },
-        created() {
-            store.dispatch('tasks')
-                .then(response => {
-                    this.setTasks(response);
-                })
-                .catch(err => {
-                    this.$notify({
-                        group: 'foo', title: 'Список задач',
-                        type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
-                    });
-                })
-        }
+        async beforeRouteEnter(to, from, next){
+            try {
+                let response = store.dispatch('tasks');
+                next(vm => {
+                    vm.setTasks(response);
+                });
+            } catch (e) {
+                this.$notify({
+                    group: 'foo', title: 'Список задач',
+                    type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                });
+            }
+        },
     }
 </script>
 

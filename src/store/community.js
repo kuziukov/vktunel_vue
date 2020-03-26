@@ -2,12 +2,11 @@ import api from '../api'
 
 export default {
     state: {
-        communities: JSON.parse(localStorage.getItem('communities') || null)
+        communities: []
     },
     mutations: {
         SAVE_COMMUNITIES(state, communities){
             state.communities = communities;
-            localStorage.setItem('communities', JSON.stringify(communities));
         },
     },
     actions: {

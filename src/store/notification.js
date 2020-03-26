@@ -3,18 +3,16 @@ import { initialization } from '../utils'
 
 export default {
     state: {
-        notification: localStorage.getItem('notification') || '',
-        notifications: JSON.parse(localStorage.getItem('notifications') || null),
-        activities: JSON.parse(localStorage.getItem('activities') || null),
+        push_token: localStorage.getItem('push_token') || '',
+        notifications: [],
+        activities: [],
     },
     mutations: {
         setActivities(state, payload){
             state.activities = payload;
-            localStorage.setItem('activities', JSON.stringify(state.activities));
         },
         setNotifications(state, payload){
             state.notifications = payload;
-            localStorage.setItem('notifications', JSON.stringify(state.notifications));
         },
         removeActivities(state, id){
             state.activities = state.activities.filter(function(value){
@@ -39,7 +37,7 @@ export default {
         },
         notification_token(state, token){
             state.notification = token;
-            localStorage.setItem('notification', token);
+            localStorage.setItem('push_token', token);
         },
     },
     actions: {

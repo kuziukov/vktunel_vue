@@ -46,14 +46,17 @@
             ...mapGetters(['listOfCommunities'])
         },
         methods: {},
-        created: function () {
-            store.dispatch('communities')
-                  .catch(err => {
-                    this.$notify({
-                      group: 'foo', title: 'Сообщества',
-                      type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
-                    });
-                  })
+        async beforeRouteEnter(to, from, next){
+            try {
+                let response = await store.dispatch('communities');
+                next();
+            } catch (e) {
+                this.$notify({
+                    group: 'foo', title: 'Сообщества',
+                    type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте позднее'
+                });
+
+            }
         }
     }
 </script>
