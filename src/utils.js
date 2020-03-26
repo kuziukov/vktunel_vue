@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { callback_url } from './config'
 
 export function make_notification_titles (notification) {
     let result_text = '';
@@ -55,7 +56,7 @@ export function oauthAuthorizationLink() {
 
     let client_id = '7029024',
         display = 'page',
-        redirect_uri = 'https://wlusm.ru/callback',
+        redirect_uri = callback_url,
         response_type = 'code',
         scope = 'friends,photos,email,groups,offline',
         v = '5.95';
