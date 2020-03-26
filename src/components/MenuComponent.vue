@@ -167,11 +167,9 @@
                 this.$router.push('/');
             },
         },
-        beforeCreate() {
+        async beforeCreate() {
             if(this.$store.getters.isAuthenticated){
-                this.$store.dispatch('getProfile')
-                    .then().catch().finally(() => {
-                });
+                await this.$store.dispatch('getProfile');
             }
         },
         async created(){
