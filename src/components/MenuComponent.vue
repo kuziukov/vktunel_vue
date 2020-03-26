@@ -8,7 +8,7 @@
               <router-link style="text-decoration: none !important; color: #343a40!important" :to="{ name: 'Index' }">
                   Wlusm
               </router-link>
-              <router-link class="p-1" to="/support" v-if="isPaid !== true && isAuthenticated">
+              <router-link class="p-1" to="/support" v-if="!isPaid && isAuthenticated">
                   <span class="badge badge-pill badge-warning" style="font-size: 0.7rem">
                       <em>Не активен</em>
                   </span>
@@ -21,8 +21,10 @@
 
           <ul class="navbar-default nav navbar-nav navbar-right mr-md-4" v-if="isAuthenticated">
               <li class="dropleft">
-                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="getNotifications(0, 5)"><i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></a>
-                  <ul class="dropdown-menu notify-drop">
+                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="getNotifications(0, 5)">
+                      <i class="fa fa-bell-o fa-lg" aria-hidden="true"></i>
+                  </a>
+                  <ul class="dropdown-menu notify-drop" v-on:click.stop="">
                       <div class="notify-drop-title">
                           <div class="row">
                               <div class="col-md-6 col-sm-6 col-xs-6">Ваша активность </div>
@@ -64,13 +66,6 @@
 
 
 <script>
-
-    $(function () {
-        $('.dropleft ul').click(function (e) {
-            e.stopPropagation();
-        });
-    });
-
     import { mapGetters, mapMutations } from 'vuex';
     import { askForPermissioToReceiveNotifications } from '../push-notification';
     import { oauthAuthorizationLink } from '../utils'
@@ -316,4 +311,49 @@
     .navbar-default .dropdown-menu.notify-drop .notify-drop-footer a:hover {
         color: #333;
     }
+
+    @media (min-width: 992px) {
+        .animate {
+            animation-duration: 0.3s;
+            -webkit-animation-duration: 0.3s;
+            animation-fill-mode: both;
+            -webkit-animation-fill-mode: both;
+        }
+    }
+
+    @keyframes slideIn {
+        0% {
+            transform: translateY(1rem);
+            opacity: 0;
+        }
+        100% {
+            transform:translateY(0rem);
+            opacity: 1;
+        }
+        0% {
+            transform: translateY(1rem);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes slideIn {
+        0% {
+            -webkit-transform: transform;
+            -webkit-opacity: 0;
+        }
+        100% {
+            -webkit-transform: translateY(0);
+            -webkit-opacity: 1;
+        }
+        0% {
+            -webkit-transform: translateY(1rem);
+            -webkit-opacity: 0;
+        }
+    }
+
+    .slideIn {
+        -webkit-animation-name: slideIn;
+        animation-name: slideIn;
+    }
+
 </style>
