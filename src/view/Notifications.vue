@@ -81,7 +81,7 @@
         },
         async beforeRouteEnter(to, from, next){
             try {
-                let response = store.dispatch('notifications');
+                let response = await store.dispatch('notifications');
                 next(vm => {
                     vm.setNotifications(response);
                 })

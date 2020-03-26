@@ -63,7 +63,7 @@
         },
         async beforeRouteEnter(to, from, next){
             try {
-                let response = store.dispatch('tasks');
+                let response = await store.dispatch('tasks');
                 next(vm => {
                     vm.setTasks(response);
                 });
