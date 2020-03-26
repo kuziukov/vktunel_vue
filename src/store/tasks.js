@@ -2,12 +2,11 @@ import api from '../api'
 
 export default {
     state: {
-        tasks: JSON.parse(localStorage.getItem('tasks') || null) ,
+        tasks: [],
     },
     mutations: {
         setTasks(state, tasks){
             state.tasks = tasks;
-            localStorage.setItem('tasks', JSON.stringify(tasks));
         },
     },
     actions: {

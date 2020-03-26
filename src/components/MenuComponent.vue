@@ -149,16 +149,17 @@
                 }
             },
             getNotifications: async function (start, limit) {
-                this.$store.dispatch('notifications', { 'start': start, 'limit': limit }).then(response => {
-                    this.setActivities(response)
-                }).catch((err) => {
+                try {
+                    let response = await this.$store.dispatch('notifications', { 'start': start, 'limit': limit });
+                    this.setActivities(response);
+                } catch (e) {
                     this.$notify({
                         group: 'foo',
                         title: 'Ваша Активность',
                         type: 'danger',
                         text: 'Произошла неизвестная ошибка, попробуйсте позднее'
                     });
-                })
+                }
             },
             notification_title: function (notification) {
                 return make_notification_titles(notification)

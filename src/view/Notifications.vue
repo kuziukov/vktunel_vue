@@ -79,18 +79,19 @@
                     })
             },
         },
-        created() {
-            store.dispatch('notifications')
-                .then(response => {
-                    this.setNotifications(response);
+        async beforeRouteEnter(to, from, next){
+            try {
+                let response = await store.dispatch('notifications');
+                next(vm => {
+                    vm.setNotifications(response);
                 })
-                .catch(err => {
-                    this.$notify({
-                        group: 'foo', title: 'Страница Уведомлений',
-                        type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
-                    });
-                })
-        }
+            } catch (e) {
+                this.$notify({
+                    group: 'foo', title: 'Страница Уведомлений',
+                    type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                });
+            }
+        },
     }
 </script>
 

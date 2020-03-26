@@ -42,6 +42,7 @@
     import { mapGetters, mapMutations } from 'vuex';
     import store from '../store'
     import { convertBytes } from '../utils'
+    import { files_url } from '../config'
 
     export default {
         name: 'Task',
@@ -54,24 +55,25 @@
         methods: {
             ...mapMutations(['setTasks']),
             download: function(task_id){
-                window.open('https://api.wlusm.ru/files/'+task_id)
+                window.open(files_url+task_id)
             },
             convertBytes: function (bytes) {
                 return convertBytes(bytes)
             }
         },
-        created() {
-            store.dispatch('tasks')
-                .then(response => {
-                    this.setTasks(response);
-                })
-                .catch(err => {
-                    this.$notify({
-                        group: 'foo', title: 'Список задач',
-                        type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
-                    });
-                })
-        }
+        async beforeRouteEnter(to, from, next){
+            try {
+                let response = await store.dispatch('tasks');
+                next(vm => {
+                    vm.setTasks(response);
+                });
+            } catch (e) {
+                this.$notify({
+                    group: 'foo', title: 'Список задач',
+                    type: 'danger', text: 'Произошла неизвестная ошибка, попробуйте попозже'
+                });
+            }
+        },
     }
 </script>
 
