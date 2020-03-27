@@ -1,7 +1,12 @@
 <template>
-    <div class="card border-info" v-if="isPaid === false && isAuthenticated" style="width: 18rem;">
+    <div class="card" v-if="isPaid === false && isAuthenticated" style="width: 18rem;">
         <div class="card-body">
-            <h4 class="card-title">{{subscription.title}}</h4>
+            <h4 class="card-title">
+                {{subscription.title}}
+                <a @click="_deleteSubscription()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </h4>
             <p class="card-text">
               {{subscription.desc}}
             </p>
@@ -10,8 +15,7 @@
               <li>{{ priceValue(subscription.limits.numberOfPhotos) }}</li>
               <li>{{subscription.limits.numberOfAlbums}} альбомов</li>
             </ul>
-            <a href="#" @click="_payPlan(plan.id)" class="btn btn-primary">Продолжить оплату</a>
-            <a href="#" @click="_deleteSubscription()" class="btn btn-outline-secondary ml-1">Изменить тариф</a>
+            <a href="#" @click="_payPlan(plan.id)" class="btn btn-outline-primary">Продолжить оплату</a>
         </div>
     </div>
 </template>

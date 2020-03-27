@@ -1,5 +1,5 @@
 <template>
-    <div class="card border-info" v-if="isPaid === null && isAuthenticated">
+    <div class="card" v-if="isPaid === null && isAuthenticated">
         <div class="card-body">
             <h4 class="card-title">Тарифный план</h4>
             <p class="card-text">
