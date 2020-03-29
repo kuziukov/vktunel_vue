@@ -49,8 +49,10 @@
       },
       async beforeMount() {
           try{
-              let response = await this.getPlans();
-              this.plans = response.data.result.items;
+              if (this.isAuthenticated){
+                  let response = await this.getPlans();
+                  this.plans = response.data.result.items;
+              }
           }
           catch(e){
               this.$notify({

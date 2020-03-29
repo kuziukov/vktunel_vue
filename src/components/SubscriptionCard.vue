@@ -56,7 +56,8 @@
           ...mapGetters(['isPaid', 'subscription', 'getTasks', 'plan', 'isAuthenticated']),
       },
       async created() {
-          await this.tasks();
+          if (this.isAuthenticated)
+              await this.tasks();
       },
       methods: {
           ...mapActions(['tasks', 'deleteSubscription', 'getProfile']),
