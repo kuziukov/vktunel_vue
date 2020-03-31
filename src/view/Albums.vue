@@ -71,7 +71,6 @@
                         });
                     }
                 } catch (e) {
-                    console.log(e)
                     this.$notify({
                         group: 'foo',
                         title: 'Произошла ошибка',
