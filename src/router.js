@@ -116,8 +116,11 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
     if(to.matched.some(record => record.meta.requiresAuth)) {
         if (store.getters.isAuthenticated) {
-            if(store.getters.isPaid !== true){
-                next('/plans')
+            let user = JSON.parse(localStorage.getItem('user') || {}) ;
+            let isPaid = user.subscription ? user.subscription.paid : null;
+
+            if(isPaid !== true){
+                next('/plans');
                 return;
             }
             next();
