@@ -1,44 +1,50 @@
 <template>
     <div class="hello">
-        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center">
-            <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-                <h1 class="display-4">Мы поможем сохранить ваши моменты</h1>
-                <p class="lead">Наша цель помочь вам извлечь все ваши фотографии с Вконтакте</p>
+        <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+            <div class="container text-center text-md-left" data-aos="fade-up">
+                <h1>Добро пожаловать на <span>WLUSM</span></h1>
+                <h2>Мы поможем вам сохранить ваши фотографии с VK.com</h2>
+                <a href="#" @click="login" class="btn-get-started">Присоединиться</a>
             </div>
-        </div>
+        </section>
 
-        <div class="container my-5 pt-5">
-            <div class="row mb-2">
-            <div class="col-md-6">
-                <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                    <div class="card-body d-flex flex-column align-items-start">
-                        <strong class="d-inline-block mb-2 text-primary">Images</strong>
-                        <h3 class="mb-0">
-                            <a class="text-dark" href="#">Загрузка альбомов</a>
-                        </h3>
-                        <div class="mb-1 text-muted">Nov 12</div>
-                        <p class="card-text mb-auto">Статья поможет познакомиться с процессом загрузки альбомов</p>
-                        <a href="#">Продолжить читать</a>
-                    </div>
-                    <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17077e0f492%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17077e0f492%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.1953125%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 200px; height: 250px;">
+        <section id="what-we-do" class="what-we-do">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Чем мы занимаемся</h2>
+                    <p>Поможем вам загрузить фотографии с социальной сети</p>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                    <div class="card-body d-flex flex-column align-items-start">
-                        <strong class="d-inline-block mb-2 text-success">Service</strong>
-                        <h3 class="mb-0">
-                            <a class="text-dark" href="#">Знакомство с Wlusm</a>
-                        </h3>
-                        <div class="mb-1 text-muted">Nov 11</div>
-                        <p class="card-text mb-auto">В этой статье расмотрены все основные функции сервиса и знакомство со всеми его фнукциями</p>
-                        <a href="#">Продолжить читать</a>
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                        <div class="icon-box">
+                            <div class="icon"><i class="fa fa-dribbble"></i></div>
+                            <h4><a href="">Придержим фотографии</a></h4>
+                            <p>Придержим ваши фотографии неделю, чтобы вы удобно могли их скачать</p>
+                        </div>
                     </div>
-                    <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17077e0f495%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17077e0f495%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.1953125%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 200px; height: 250px;">
+
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                        <div class="icon-box">
+                            <div class="icon"><i class="fa fa-file"></i></div>
+                            <h4><a href="">Загрузим фотографии</a></h4>
+                            <p>Загрузим фотографии за вас, а вам предоставим архив с фотографиями</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                        <div class="icon-box">
+                            <div class="icon"><i class="fa fa-tachometer"></i></div>
+                            <h4><a href="">Быстрая загрузка</a></h4>
+                            <p>Быстро загрузим все ваши фотографии и оповестим вас о завершении загрузки</p>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
-        </div>
-        </div>
+        </section>
 
         <div class="container">
             <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -55,12 +61,188 @@
         methods: {
             login: function () {
                 window.location = oauthAuthorizationLink()
-                },
+            },
         },
     }
 
 </script>
 
 <style scoped>
+
+    #hero {
+        width: 100%;
+        height: 60vh;
+        background: url("https://www.milkbooks.com/media/1654/layflatalbum-main.jpg") center center;
+        background-size: cover;
+        position: relative;
+        padding: 0;
+    }
+
+    #hero:before {
+        content: "";
+        background: rgba(56, 64, 70, 0.7);
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    #hero .container {
+        z-index: 2;
+    }
+
+    #hero h1 {
+        margin: 0 0 10px 0;
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 56px;
+        color: #fff;
+    }
+
+    #hero h1 span {
+        border-bottom: 4px solid #3498db;
+    }
+
+    #hero h2 {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 30px;
+        font-size: 24px;
+    }
+
+    #hero .btn-get-started {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-size: 13px;
+        letter-spacing: 2px;
+        display: inline-block;
+        padding: 12px 28px;
+        border-radius: 4px;
+        transition: ease-in-out 0.3s;
+        color: #fff;
+        background: #3498db;
+        text-transform: uppercase;
+    }
+
+    #hero .btn-get-started:hover {
+        background: #4ea5e0;
+    }
+
+    @media (max-width: 992px) {
+        #hero {
+            height: calc(100vh - 70px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        #hero h1 {
+            font-size: 30px;
+            line-height: 36px;
+        }
+        #hero h2 {
+            font-size: 18px;
+            line-height: 24px;
+            margin-bottom: 30px;
+        }
+    }
+
+    section {
+        padding: 60px 0;
+    }
+
+    .section-bg {
+        background-color: #f7fbfe;
+    }
+
+    .section-title {
+        text-align: center;
+        padding-bottom: 30px;
+    }
+
+    .section-title h2 {
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        position: relative;
+    }
+
+    .section-title h2::before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 120px;
+        height: 1px;
+        background: #ddd;
+        bottom: 1px;
+        left: calc(50% - 60px);
+    }
+
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 40px;
+        height: 3px;
+        background: #3498db;
+        bottom: 0;
+        left: calc(50% - 20px);
+    }
+
+    .section-title p {
+        margin-bottom: 0;
+    }
+
+    .what-we-do .icon-box {
+        text-align: center;
+        padding: 30px 20px;
+        transition: all ease-in-out 0.3s;
+        background: #fff;
+    }
+
+    .what-we-do .icon-box .icon {
+        margin: 0 auto;
+        width: 64px;
+        height: 64px;
+        background: #eaf4fb;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        transition: ease-in-out 0.3s;
+    }
+
+    .what-we-do .icon-box .icon i {
+        color: #3498db;
+        font-size: 28px;
+    }
+
+    .what-we-do .icon-box h4 {
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 24px;
+    }
+
+    .what-we-do .icon-box h4 a {
+        color: #384046;
+        transition: ease-in-out 0.3s;
+    }
+
+    .what-we-do .icon-box p {
+        line-height: 24px;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .what-we-do .icon-box:hover {
+        border-color: #fff;
+        box-shadow: 0px 0 25px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .what-we-do .icon-box:hover h4 a, .what-we-do .icon-box:hover .icon i {
+        color: #3498db;
+    }
+
 
 </style>

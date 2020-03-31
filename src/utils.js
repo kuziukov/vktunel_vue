@@ -69,3 +69,8 @@ export function oauthAuthorizationLink() {
                         + `&response_type=${ response_type }`
                         + `&v=${ v }`
 }
+
+export function planNumberOfPhotos(number) {
+    let response = number >= 1000 ? number / 1000 : number;
+    return `${response}к фотографий`
+}

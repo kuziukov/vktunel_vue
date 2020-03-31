@@ -1,17 +1,12 @@
 <template>
     <div>
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom box-shadow">
           <router-link :to="{ name: 'Index' }">
               <img src="/cloud_logo.svg" width="50" height="50">
           </router-link>
           <h5 class="my-0 mr-md-auto font-weight-normal">
               <router-link style="text-decoration: none !important; color: #343a40!important" :to="{ name: 'Index' }">
                   Wlusm
-              </router-link>
-              <router-link class="p-1" to="/support" v-if="!isPaid && isAuthenticated">
-                  <span class="badge badge-pill badge-warning" style="font-size: 0.7rem">
-                      <em>Не активен</em>
-                  </span>
               </router-link>
           </h5>
           <nav class="my-2 my-md-0 mr-md-3">
@@ -77,7 +72,7 @@
             return{}
         },
         computed : {
-            ...mapGetters(['getActivities', 'isAuthenticated', 'profile', 'isPaid']),
+            ...mapGetters(['getActivities', 'isAuthenticated', 'profile']),
             systemToken : function(){ return this.$store.getters.token},
             menuItems : function() {
                 return this.isAuthenticated ?
