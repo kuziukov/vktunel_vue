@@ -14,7 +14,7 @@ export default {
             return new Promise((resolve, reject) => {
                 api.post('/tasks', payload)
                     .then(resp => {
-                        resolve(resp.response)
+                        resolve(resp)
                     })
                     .catch(err => {
                         reject(err)

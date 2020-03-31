@@ -38,6 +38,7 @@
     import axios from 'axios'
     import api from '../api'
     import { formatDate } from "../utils";
+    import store from "../store";
 
     export default {
         name: 'Albums',
@@ -49,34 +50,35 @@
             }
         },
         methods: {
-            createTask: function (album_id) {
+            createTask: async function (album_id) {
                 let community_id = this.$route.params.cummunity_id;
-                this.$store.dispatch('createTask', { 'subject_id': community_id, 'album_id': album_id })
-                    .then(resp => {
-                        if (resp.data['code'] === 200){
-                            this.$notify({
-                                group: 'foo',
-                                title: 'Задача добавлена в загрузку',
-                                type: 'success',
-                                text: 'Альбом "'+ resp.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
-                            });
-                        }
-                        if (resp.data['code'] === 410){
-                            this.$notify({
-                                group: 'foo',
-                                title: 'Тарифный план',
-                                type: 'danger',
-                                text: `Тарифный план <u><strong>не активен</strong></u>, выберите тарифный план для продолжения работы`
-                            });
-                        }
-                    }).catch((err) => {
+                try{
+                    let response = await store.dispatch('createTask', { 'subject_id': community_id, 'album_id': album_id });
+                    if (response.data['code'] === 200){
                         this.$notify({
                             group: 'foo',
-                            title: 'Произошла ошибка',
-                            type: 'warning',
-                            text: 'Извините, нам не удалось загрузить ваш альбом, попробуйте снова'
+                            title: 'Задача добавлена в загрузку',
+                            type: 'success',
+                            text: 'Альбом "'+ response.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
                         });
-                    })
+                    }
+                    if (response.data['code'] === 410){
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Тарифный план',
+                            type: 'danger',
+                            text: `Тарифный план <u><strong>не активен</strong></u>, выберите тарифный план для продолжения работы`
+                        });
+                    }
+                } catch (e) {
+                    console.log(e)
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Произошла ошибка',
+                        type: 'warning',
+                        text: 'Извините, нам не удалось загрузить ваш альбом, попробуйте снова'
+                    });
+                }
             },
             setData (err, albums) {
                 if (err) {
