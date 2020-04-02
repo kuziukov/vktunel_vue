@@ -1,6 +1,6 @@
 module.exports = {
-    API: 'http://localhost:5000/v1.0',
-    WEBSOCKET: 'ws://localhost:8083/',
+    API: 'https://api.wlusm.ru/v1.0',
+    WEBSOCKET: 'ws://stream.wlusm.ru/',
     files_url: 'https://api.wlusm.ru/files/',
-    callback_url: 'http://localhost:8080/callback'
+    callback_url: 'https://wlusm.ru/callback'
 };
