@@ -45,13 +45,8 @@ export default {
             return new Promise((resolve, reject) => {
                 api.post('/subscription', payload)
                     .then(resp => {
-                        if ('code' in resp.data && resp.data['code'] === 200){
-                            commit('notification_token', payload.token);
-                            resolve(resp)
-                        }
-                        else{
-                            reject();
-                        }
+                        commit('notification_token', payload.token);
+                        resolve(resp)
                     })
                     .catch(err => {
                         reject(err)

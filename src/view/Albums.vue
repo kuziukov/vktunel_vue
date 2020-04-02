@@ -54,7 +54,7 @@
                 let community_id = this.$route.params.cummunity_id;
                 try{
                     let response = await store.dispatch('createTask', { 'subject_id': community_id, 'album_id': album_id });
-                    if (response.data['code'] === 200){
+                    if (response.response.status === 200){
                         this.$notify({
                             group: 'foo',
                             title: 'Задача добавлена в загрузку',
@@ -62,12 +62,12 @@
                             text: 'Альбом "'+ response.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
                         });
                     }
-                    if (response.data['code'] === 410){
+                    if (response.response.status === 410){
                         this.$notify({
                             group: 'foo',
                             title: 'Тарифный план',
                             type: 'danger',
-                            text: `Тарифный план <u><strong>не активен</strong></u>, выберите тарифный план для продолжения работы`
+                            text: `Тарифный план <u><strong>не активен</strong></u> или превышен лимит загрузок`
                         });
                     }
                 } catch (e) {

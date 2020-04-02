@@ -1,4 +1,5 @@
 import api from "../api";
+import { make_notification_titles } from '../utils'
 
 export default {
     state:{
@@ -11,23 +12,37 @@ export default {
         SOCKET_ONOPEN (state, event)  {
             this.$socket = event.currentTarget;
             state.socket.isConnected = true
+            console.log('Notification server connected')
         },
         SOCKET_ONCLOSE (state, event)  {
             state.socket.isConnected = false
+            console.log('Notification server disconnected')
         },
         SOCKET_ONERROR (state, event)  {
             console.error(state, event)
         },
         SOCKET_ONMESSAGE (state, message)  {
 
-            if ('message' in message){
-                this._vm.$notify({
-                    group: 'foo',
-                    title: 'Произошла ошибка',
-                    type: 'warning',
-                    text: message['message']
-                });
+            switch (message['type']) {
+                case 'TaskAdded':
+
+                    break;
+                case 'TaskComplited':
+                    this._vm.$notify({
+                        group: 'foo',
+                        title: 'Загрузка альбома',
+                        type: 'success',
+                        text: make_notification_titles(message)
+                    });
+                    break;
+                case 'PlanChanged':
+
+                    break;
+                case 'PlanDeleted':
+
+                    break;
             }
+
         },
         SOCKET_RECONNECT(state, count) {
             console.info(state, count)

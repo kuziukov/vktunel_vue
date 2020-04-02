@@ -10,7 +10,9 @@
               </router-link>
           </h5>
           <nav class="my-2 my-md-0 mr-md-3">
-              <router-link v-bind:key="item.id" v-for="item in menuItems" :to="{ name: item.route }" class="p-2 text-dark">{{item.title}}</router-link>
+              <router-link v-bind:key="item.id" v-for="item in menuItems" :to="{ name: item.route }" class="p-2 text-dark">
+                  {{item.title}}
+              </router-link>
               <router-link class="p-2 text-dark" v-on:click.native="logout" v-if="isAuthenticated" to="/">Выход</router-link>
           </nav>
 

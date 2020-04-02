@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card" v-if="isPaid === true && isAuthenticated" style="width: 18rem;">
+        <div :class="isLimitReached(getTasks, subscription) ? 'card border-danger' : 'card'" v-if="isPaid === true && isAuthenticated" style="width: 18rem;">
             <div class="card-body">
                 <h4 class="card-title">
                     {{subscription.title}}
@@ -61,6 +61,9 @@
       },
       methods: {
           ...mapActions(['tasks', 'deleteSubscription', 'getProfile']),
+          isLimitReached: function(tasks, subscription){
+              return tasks.length === subscription.limits.numberOfAlbums;
+          },
           priceValue: function (value) {
               return priceFiller(value)
           },

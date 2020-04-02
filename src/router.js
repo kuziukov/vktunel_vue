@@ -127,9 +127,19 @@ router.beforeEach((to, from, next) => {
             return;
         }
         next('/');
-    } else {
-        next();
     }
+
+    if (store.getters.isAuthenticated) {
+        let user = JSON.parse(localStorage.getItem('user') || {}) ;
+        let isPaid = user.subscription ? user.subscription.paid : null;
+
+        if(isPaid !== true && to.name !== 'Plans'){
+            next('/plans');
+            return;
+        }
+    }
+
+    next();
 });
 
 export default router
