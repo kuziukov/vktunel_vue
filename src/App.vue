@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <MenuComponent/>
-        <notifications group = "foo" position="top right" width="30%" >
+        <notifications group = "foo" position="top right">
             <template slot="body" slot-scope="props">
                 <div :class="'alert alert-' + props.item.type" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -37,18 +37,11 @@
         opacity: 0
     }
 
-    @media (max-width: 576px) {
-        .notifications{
-            position: absolute;
-            margin-top: 155px;
-            margin-right: 10px;
-        }
-    }
 
     @media (min-width: 576px) {
         .notifications{
             position: absolute;
-            margin-top: 155px;
+            margin-top: 177px;
             margin-right: 10px;
         }
     }

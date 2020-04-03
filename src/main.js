@@ -1,7 +1,7 @@
 import Vue from 'vue'
+import VueAnalytics from 'vue-analytics'
 import Notifications from 'vue-notification'
 import VueNativeSock from 'vue-native-websocket'
-import VueYandexMetrika from 'vue-yandex-metrika'
 import { initializeFirebase } from './push-notification';
 import { WEBSOCKET } from './config'
 
@@ -10,12 +10,12 @@ import router from './router'
 import axios from 'axios'
 import store from './store.js'
 
-Vue.use(Notifications);
-Vue.use(VueYandexMetrika, {
-    id: 50641489,
-    router: router,
-    env: process.env.NODE_ENV
+
+Vue.use(VueAnalytics, {
+    id: 'UA-162685392-1',
+    router
 });
+Vue.use(Notifications);
 initializeFirebase();
 
 Vue.prototype.$http = axios;
