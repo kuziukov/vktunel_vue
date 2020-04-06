@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <MenuComponent/>
-        <notifications group = "foo" position="top right">
+        <notifications group = "foo" position="top right" :max="2">
             <template slot="body" slot-scope="props">
                 <div :class="'alert alert-' + props.item.type" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -25,20 +25,7 @@
         overflow-y: scroll;
     }
 
-    .fade-enter-active,
-    .fade-leave-active {
-        transition-duration: 0.3s;
-        transition-property: opacity;
-        transition-timing-function: ease;
-    }
-
-    .fade-enter,
-    .fade-leave-active {
-        opacity: 0
-    }
-
-
-    @media (min-width: 576px) {
+    @media (max-width: 480px) {
         .notifications{
             position: absolute;
             margin-top: 177px;
@@ -52,17 +39,22 @@
             margin-top: 90px;
             margin-right: 10px;
         }
-        .notifications .title {
-            font-size: 16px;
-        }
-        .notifications .body {
-            font-size: 15px;
-            font-weight: lighter;
-        }
-        .notifications .close{
-            font-size: 1.2rem;
-            color: #a6a6a6;
-        }
+    }
+
+    .notifications{
+        position: absolute;
+    }
+
+    .notifications .title {
+        font-size: 16px;
+    }
+    .notifications .body {
+        font-size: 15px;
+        font-weight: lighter;
+    }
+    .notifications .close{
+        font-size: 1.2rem;
+        color: #a6a6a6;
     }
 
 </style>

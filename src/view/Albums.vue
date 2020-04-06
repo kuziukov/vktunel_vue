@@ -24,7 +24,7 @@
                         <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <strong class="text-gray-dark">{{album.title}}</strong>
-                                <a href="#" @click="createTask(album.id)">Добавить в (Загрузить)</a>
+                                <a href="#" v-on:click.stop.prevent="createTask(album.id)">Добавить в (Загрузить)</a>
                             </div>
                             <span class="d-block">Фотографий в альбоме: {{album.size}}. Дата создания альбома: {{ album.created | formatDate }}</span>
                         </div>

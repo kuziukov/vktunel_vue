@@ -16,7 +16,7 @@
               <router-link class="p-2 text-dark" v-on:click.native="logout" v-if="isAuthenticated" to="/">Выход</router-link>
           </nav>
 
-          <ul class="navbar-default nav navbar-nav navbar-right mr-md-4" v-if="isAuthenticated">
+          <ul class="navbar-default nav navbar-nav navbar-right mr-md-4 d-none d-md-block" v-if="isAuthenticated">
               <li class="dropleft">
                   <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="getNotifications(0, 5)">
                       <i class="fa fa-bell-o fa-lg" aria-hidden="true"></i>
@@ -36,7 +36,7 @@
                       <div class="drop-content">
                           <li v-bind:key="notification.id" v-for="notification in getActivities">
                               <div class="media">
-                                  <img class="col-md-3 col-sm-3 col-xs-3" :src="`/icons/${notification.type}.png`" alt="Generic placeholder image">
+                                  <img class="col-md-3 col-sm-3 col-xs-3" :src="`/icons/${notification.type}.png`" alt="Generic placeholder image" />
                                   <div class="media-body">
                                       <p class="mt-0" v-html="notification_title(notification)"></p>
                                   </div>
