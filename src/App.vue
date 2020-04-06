@@ -25,7 +25,7 @@
         overflow-y: scroll;
     }
 
-    @media (min-width: 576px) {
+    @media (max-width: 480px) {
         .notifications{
             position: absolute;
             margin-top: 177px;
@@ -39,17 +39,22 @@
             margin-top: 90px;
             margin-right: 10px;
         }
-        .notifications .title {
-            font-size: 16px;
-        }
-        .notifications .body {
-            font-size: 15px;
-            font-weight: lighter;
-        }
-        .notifications .close{
-            font-size: 1.2rem;
-            color: #a6a6a6;
-        }
+    }
+
+    .notifications{
+        position: absolute;
+    }
+
+    .notifications .title {
+        font-size: 16px;
+    }
+    .notifications .body {
+        font-size: 15px;
+        font-weight: lighter;
+    }
+    .notifications .close{
+        font-size: 1.2rem;
+        color: #a6a6a6;
     }
 
 </style>
