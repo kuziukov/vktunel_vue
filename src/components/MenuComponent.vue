@@ -128,15 +128,15 @@
                 if (token){
                     let payload = {
                         "token": token
-                    };
+                    }
                     if(!(this.systemToken === token)){
-                        this.$store.dispatch('subscribe', payload).then(resp => {
-                            if ('code' in resp.data && resp.data['code'] === 200){
-                                //console.log(resp)
-                            }
-                        }).catch(err => {
-                            console.log(err)
-                        })
+                        try {
+                            await this.$store.dispatch('subscribe', payload)
+                            this.$store.commit('setPushNotificationToken', payload.token);
+                        } catch (e) {
+
+                        }
+
                     }
                 }
             },
