@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <MenuComponent/>
-        <notifications group = "foo" position="top right">
+        <notifications group = "foo" position="top right" :max="2">
             <template slot="body" slot-scope="props">
                 <div :class="'alert alert-' + props.item.type" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -24,19 +24,6 @@
     html{
         overflow-y: scroll;
     }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition-duration: 0.3s;
-        transition-property: opacity;
-        transition-timing-function: ease;
-    }
-
-    .fade-enter,
-    .fade-leave-active {
-        opacity: 0
-    }
-
 
     @media (min-width: 576px) {
         .notifications{
