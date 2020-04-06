@@ -50,6 +50,7 @@
 <script>
   import { mapGetters, mapActions } from 'vuex';
   import {formatDate, priceFiller} from "../utils";
+  import router from "../router";
   export default {
       name: 'SubcriptionCard',
       computed: {
@@ -69,8 +70,8 @@
           },
           _deleteSubscription: async function(){
               try{
-                  let response = await this.deleteSubscription();
-                  await this.getProfile();
+                  let response = await this.deleteSubscription()
+                  await this.getProfile()
 
                   if (response){
                       this.$notify({
@@ -80,6 +81,7 @@
                           text: 'Вы успешно отключили тарифный план '
                       });
                   }
+                  router.push('/')
               }
               catch (e) {
                   this.$notify({
