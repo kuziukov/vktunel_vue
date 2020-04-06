@@ -54,28 +54,19 @@
                 let community_id = this.$route.params.cummunity_id;
                 try{
                     let response = await store.dispatch('createTask', { 'subject_id': community_id, 'album_id': album_id });
-                    if (response.response.status === 200){
-                        this.$notify({
-                            group: 'foo',
-                            title: 'Задача добавлена в загрузку',
-                            type: 'success',
-                            text: 'Альбом "'+ response.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
-                        });
-                    }
-                    if (response.response.status === 410){
-                        this.$notify({
-                            group: 'foo',
-                            title: 'Тарифный план',
-                            type: 'danger',
-                            text: `Тарифный план <u><strong>не активен</strong></u> или превышен лимит загрузок`
-                        });
-                    }
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Задача добавлена в загрузку',
+                        type: 'success',
+                        text: 'Альбом "'+ response.data.result.task.album_name+ '" добавлен в <a href="/tasks" class="alert-link">загрузки</a>'
+                    });
+
                 } catch (e) {
                     this.$notify({
                         group: 'foo',
-                        title: 'Произошла ошибка',
-                        type: 'warning',
-                        text: 'Извините, нам не удалось загрузить ваш альбом, попробуйте снова'
+                        title: 'Тарифный план',
+                        type: 'danger',
+                        text: `Тарифный план <u><strong>не активен</strong></u> или превышен лимит загрузок`
                     });
                 }
             },
