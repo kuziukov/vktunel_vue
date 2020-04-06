@@ -5,8 +5,6 @@
 
         <div class="card-columns p-5">
             <SubcriptionCard></SubcriptionCard>
-            <SubscriptionCompleteCard></SubscriptionCompleteCard>
-            <PlanSelectionCard></PlanSelectionCard>
         </div>
 
     </main>
@@ -14,14 +12,10 @@
 
 <script>
     import SubcriptionCard from "../components/SubscriptionCard";
-    import PlanSelectionCard from "../components/PlanSelectionCard";
-    import SubscriptionCompleteCard from "../components/SubscriptionCompleteCard";
 
     export default {
         name: 'Support',
         components: {
-            SubscriptionCompleteCard,
-            PlanSelectionCard,
             SubcriptionCard,
         },
     }
