@@ -74,3 +74,11 @@ export function planNumberOfPhotos(number) {
     let response = number >= 1000 ? number / 1000 : number;
     return `${response}к фотографий`
 }
+
+export function loadUserFromLocalStorage() {
+    try {
+        return JSON.parse(localStorage.getItem('user'))
+    } catch (e) {
+        return null
+    }
+}

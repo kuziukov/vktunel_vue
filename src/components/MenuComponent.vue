@@ -160,7 +160,7 @@
                 window.location = oauthAuthorizationLink()
             },
             logout: function () {
-                this.$store.commit('LOGOUT');
+                this.$store.commit('logout');
                 this.$router.push('/');
             },
         },
