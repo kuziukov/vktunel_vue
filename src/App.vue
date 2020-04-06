@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <MenuComponent/>
-        <notifications group = "foo" position="top right" :max="2">
+        <notifications group = "foo" :position="isMobile() ? 'top center' : 'top right'" :max="2">
             <template slot="body" slot-scope="props">
                 <div :class="'alert alert-' + props.item.type" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -100,7 +100,10 @@
                 if  (this.isConnected){
                     this.$disconnect();
                 }
-            }
+            },
+            isMobile() {
+                return screen.width <= 760
+            },
         },
         watch: {
             isAuthenticated: function (next, prev) {

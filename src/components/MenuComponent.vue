@@ -53,7 +53,7 @@
                   </ul>
               </li>
           </ul>
-          <button class="btn btn-outline-primary" @click="login" v-if="!isAuthenticated">Присоединиться</button>
+          <button class="btn btn-outline-primary d-none d-md-block" @click="login" v-if="!isAuthenticated">Присоединиться</button>
         </div>
     </div>
 
