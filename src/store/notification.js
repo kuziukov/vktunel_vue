@@ -35,22 +35,22 @@ export default {
         sort_notifications(state){
             state.notifications = state.notifications.sort((a,b) => (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0));
         },
-        notification_token(state, token){
+        setPushNotificationToken(state, token){
             state.notification = token;
             localStorage.setItem('push_token', token);
         },
     },
     actions: {
         subscribe({commit}, payload){
-            return new Promise((resolve, reject) => {
-                api.post('/subscription', payload)
-                    .then(resp => {
-                        commit('notification_token', payload.token);
-                        resolve(resp)
-                    })
-                    .catch(err => {
-                        reject(err)
-                    })
+            return new Promise(async (resolve, reject) => {
+                try {
+                    let response = await api.post('/subscription', payload)
+                    resolve(response)
+
+                } catch (e) {
+                    reject(e)
+
+                }
             })
         },
         notifications({commit}, payload){
