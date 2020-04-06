@@ -189,7 +189,7 @@
 </script>
 
 
-<style>
+<style scoped>
     .navbar-default .dropdown-menu.notify-drop {
         min-width: 330px;
         background-color: #fff;
