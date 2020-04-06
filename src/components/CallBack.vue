@@ -2,16 +2,20 @@
     import store from '../store'
     export default {
         name: 'CallBack',
-        beforeRouteEnter(to, from, next){
+        async beforeRouteEnter(to, from, next){
             let code = {
                 'code': to.query.code
             };
-            store.dispatch('SIGNUP', code)
-                .then()
-                .catch()
-                .finally(() => {
-                    next('/');
-            });
+
+            try{
+                await store.dispatch('signUp', code)
+                await store.dispatch('getProfile')
+            } catch (e) {
+                console.log(e);
+            } finally {
+                next('/');
+            }
+
         },
 
     }

@@ -114,8 +114,8 @@
             this.$http.interceptors.response.use(undefined, function (err) {
                 return new Promise(function (resolve, reject) {
                     if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                        console.log('LOGOUT')
-                        this.$store.dispatch('LOGOUT')
+                        console.log('logout')
+                        this.$store.dispatch('logout')
                     }
                     throw err;
                 });

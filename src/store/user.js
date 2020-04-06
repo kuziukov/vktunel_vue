@@ -7,59 +7,56 @@ export default {
         user: localStorage.getItem('user') || {},
     },
     mutations: {
-        SET_TOKEN(state, token){
+        setToken(state, token){
             state.token = token;
             localStorage.setItem('token', token);
             api.defaults.headers.common['Authorization'] = token;
         },
-        LOGOUT(state){
+        logout(state){
             state.token = '';
             localStorage.removeItem('token');
             delete api.defaults.headers.common['Authorization'];
         },
-        USER_UPDATED(state, user){
+        setUser(state, user){
             state.user = user;
             localStorage.setItem('user', JSON.stringify(user));
         },
     },
     actions: {
-        SIGNUP({commit}, payload){
-            return new Promise((resolve, reject) => {
-                api.post('/authorization/code', payload).then(resp => {
-                    if ('code' in resp.data && resp.data['code'] === 200){
-                        var access_token = resp.data['result']['access_token'];
-                        commit('SET_TOKEN', access_token);
-                        resolve(resp)
-                    }
-                    else{
-                        commit('LOGOUT');
-                        reject();
-                    }
-                }).catch(err => {
-                    commit('LOGOUT');
-                    reject(err)
-                })
+        signUp({commit}, payload){
+            return new Promise(async (resolve, reject) => {
+                try{
+                    let response = await api.post('/authorization/code', payload);
+                    let access_token = response.data['result']['access_token'];
+                    commit('setToken', access_token);
+                    resolve(response)
+
+                } catch (e) {
+                    commit('logout');
+                    reject(e)
+                }
+
             })
         },
-        LOGOUT({commit}){
+        logout({commit}){
             return new Promise((resolve) => {
-                commit('LOGOUT');
+                commit('logout');
                 resolve()
             })
         },
         getProfile({commit}){
-            return new Promise((resolve, reject) => {
-                api.get('/profile')
-                    .then(resp => {
-                        if ('code' in resp.data && resp.data['code'] === 200){
-                            commit('USER_UPDATED', resp.data.result);
-                            resolve(resp);
-                        }
-                    })
-                    .catch(() => {
-                        commit('LOGOUT');
-                        reject();
-                    })
+            return new Promise(async (resolve, reject) => {
+                try {
+                    let response = await api.get('/profile');
+
+                    let user = response.data.result;
+                    commit('setUser', user);
+
+                    resolve(response);
+                } catch (e) {
+                    commit('logout');
+                    reject(e);
+                }
             })
         },
         getPlans({commit}){

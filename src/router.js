@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store.js'
 
+import { loadUserFromLocalStorage } from './utils'
+
 import Notifications from "./view/Notifications";
 import CallBack from '@/components/CallBack'
 
@@ -24,7 +26,7 @@ let router = new Router({
             name: 'Index',
             component: Index,
             meta: {
-                  title: 'Новости - Wlusm',
+                title: 'Новости - Wlusm',
             }
         },
         {
@@ -95,51 +97,48 @@ let router = new Router({
             }
         }
     ]
-  });
+});
 
 router.beforeResolve((to, from, next) => {
-    // If this isn't an initial page load.
     if (to.name) {
-        // Start the route progress bar.
         NProgress.start()
     }
     next()
 });
 
 router.afterEach((to, from) => {
-    // Complete the animation of the route progress bar.
     NProgress.done()
 });
 
+router.beforeEach((to, from, next) => {
+    if (store.getters.isAuthenticated) {
+        let user = loadUserFromLocalStorage()
+
+        if (user) {
+            let isPaid = user.subscription ? user.subscription.paid : null
+
+            if(isPaid !== true && to.name !== 'Plans'){
+                next('/plans')
+            } else {
+                next()
+            }
+        }
+    } else {
+        next()
+    }
+});
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
     if(to.matched.some(record => record.meta.requiresAuth)) {
-        if (store.getters.isAuthenticated) {
-            let user = JSON.parse(localStorage.getItem('user') || {}) ;
-            let isPaid = user.subscription ? user.subscription.paid : null;
-
-            if(isPaid !== true){
-                next('/plans');
-                return;
-            }
-            next();
-            return;
+        if(!store.getters.isAuthenticated) {
+            next('/')
+        } else {
+            next()
         }
-        next('/');
+    } else {
+        next()
     }
-
-    if (store.getters.isAuthenticated) {
-        let user = JSON.parse(localStorage.getItem('user') || {}) ;
-        let isPaid = user.subscription ? user.subscription.paid : null;
-
-        if(isPaid !== true && to.name !== 'Plans'){
-            next('/plans');
-            return;
-        }
-    }
-
-    next();
 });
 
 export default router
